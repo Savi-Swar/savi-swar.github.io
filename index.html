@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Savitur Swarup</title>
+  <meta name="description" content="Savitur Swarup. CS and Finance at Penn. I like building things, usually somewhere between machine learning, markets, and the brain." />
+
+  <!-- Open Graph / social -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Savitur Swarup" />
+  <meta property="og:description" content="I like building things, usually somewhere between machine learning, markets, and the brain." />
+  <meta property="og:image" content="assets/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Savitur Swarup" />
+  <meta name="twitter:description" content="I like building things, usually somewhere between machine learning, markets, and the brain." />
+  <meta name="twitter:image" content="assets/og.png" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0b0d'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='38' fill='%23ece9e2' text-anchor='middle'%3ES%3C/text%3E%3Ccircle cx='32' cy='30' r='2' fill='%23a9a6d6'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="aura" aria-hidden="true"></div>
+  <div class="cursor-glow" aria-hidden="true"></div>
+  <div class="scroll-prog" id="scrollProg" aria-hidden="true"></div>
+
+  <!-- NAV -->
+  <header class="nav" id="nav">
+    <a href="#top" class="nav__mark">S<span>·</span>S</a>
+    <nav class="nav__links">
+      <a href="#about" data-spy="about">About</a>
+      <a href="#experience" data-spy="experience">Experience</a>
+      <a href="#research" data-spy="research">Research</a>
+      <a href="#projects" data-spy="projects">Projects</a>
+      <a href="#skills" data-spy="skills">Toolkit</a>
+      <a href="#contact" data-spy="contact">Contact</a>
+    </nav>
+    <a href="assets/Savitur_Swarup_Resume.pdf" target="_blank" rel="noopener" class="nav__resume">Résumé ↗</a>
+  </header>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero__inner">
+        <p class="eyebrow reveal">Philadelphia · Singapore · Jülich</p>
+        <h1 class="hero__name">
+          <span class="line"><span>Savitur</span></span>
+          <span class="line"><span>Swarup</span></span>
+        </h1>
+        <p class="hero__tag reveal">i like to build things.</p>
+        <p class="hero__sub reveal">usually somewhere between machine learning, markets, and the brain.</p>
+        <div class="hero__meta reveal">
+          <span>CS &amp; Finance</span>
+          <span class="dot"></span>
+          <span>University of Pennsylvania</span>
+          <span class="dot"></span>
+          <span>Class of 2028</span>
+        </div>
+        <div class="hero__status reveal">
+          <span class="hero__status-dot"></span>
+          Open to Summer 2027 internships · Software · Machine Learning · Quant · Research
+        </div>
+
+        <!-- signature: live EEG trace -->
+        <div class="eeg reveal" aria-hidden="true">
+          <svg viewBox="0 0 1200 80" preserveAspectRatio="none">
+            <path class="eeg__path" d="M0,40 L120,40 L138,40 L150,16 L162,62 L174,40 L300,40 L318,40 L330,26 L342,54 L354,40 L470,40 L484,40 L496,10 L508,68 L520,32 L532,44 L544,40 L680,40 L700,40 L712,22 L724,58 L736,40 L860,40 L878,40 L890,14 L902,64 L914,38 L926,42 L938,40 L1070,40 L1088,40 L1100,28 L1112,52 L1124,40 L1200,40" />
+          </svg>
+        </div>
+
+        <a href="#about" class="hero__scroll reveal" aria-label="Scroll to content">
+          <span>Scroll</span>
+          <span class="hero__scroll-line"></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- HIGHLIGHTS: the heart, at a glance -->
+    <section class="highlights" aria-label="Highlights">
+      <div class="hl-grid reveal">
+        <a class="hl" href="#research">
+          <b>0.89 AUC</b><span>EEG Alzheimer's model</span><i class="hl-go" aria-hidden="true">↗</i>
+        </a>
+        <a class="hl" href="#experience">
+          <b>45 tools</b><span>Agentic AI CRM system</span><i class="hl-go" aria-hidden="true">↗</i>
+        </a>
+        <a class="hl" href="#experience">
+          <b>+50% ROAS</b><span>LLM-driven ad engine</span><i class="hl-go" aria-hidden="true">↗</i>
+        </a>
+        <a class="hl" href="https://savi-swar.github.io/vig/" target="_blank" rel="noopener">
+          <b>IC +0.027</b><span>Live quant desk</span><i class="hl-go" aria-hidden="true">↗</i>
+        </a>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="section" id="about">
+      <div class="section__label reveal"><span>01</span> About</div>
+      <div class="about">
+        <div class="about__photo reveal">
+          <img src="assets/headshot.jpg" alt="Savitur Swarup"
+               onerror="this.closest('.about__photo').classList.add('is-empty')" />
+          <div class="about__photo-fallback">
+            <span class="about__photo-mark">S<i>·</i>S</span>
+            <span class="about__photo-cap">Savitur Swarup</span>
+          </div>
+        </div>
+        <div class="about__text">
+          <p class="reveal">
+            I'm a sophomore at Penn studying <strong>Computer Science</strong> at SEAS and
+            <strong>Economics &amp; Finance</strong> at Wharton. I like problems that sit between fields, and
+            once something grabs me I have a hard time putting it down until it actually works.
+          </p>
+          <p class="reveal">
+            Lately that's been AI agents, EEG models of the brain, and a bit of quant on the side. I'm pretty
+            relentless once I'm into something, and honestly I just really like building things that work.
+          </p>
+          <div class="about__focus reveal">
+            <span>Machine Learning</span><span>Agentic AI</span><span>Full-Stack</span><span>Computational Neuroscience</span>
+          </div>
+          <ul class="about__facts reveal">
+            <li><span>USACO</span> Gold Division</li>
+            <li><span>Math Olympiad</span> Gold · 24th intl</li>
+            <li><span>GPA</span> 3.8 / 4.0</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section class="section" id="experience">
+      <div class="section__label reveal"><span>02</span> Experience</div>
+      <div class="rows">
+
+        <article class="row reveal">
+          <div class="row__meta">
+            <span class="row__time">Jun 2026 – Present</span>
+            <span class="row__place">Singapore</span>
+          </div>
+          <div class="row__body">
+            <h3>Software Engineer <span class="row__org">Tara Ventures</span></h3>
+            <p>Built an ad-optimization pipeline (Python, Meta and Google Ads APIs) that generates LLM media
+              and A/B tests it across products. Added multi-armed bandit budget allocation that drops
+              underperformers on its own, for a projected <strong>50% lift</strong> in ROAS, inside a loop
+              that feeds results back into the next round of creative.</p>
+          </div>
+        </article>
+
+        <article class="row reveal">
+          <div class="row__meta">
+            <span class="row__time">Nov 2025 – Present</span>
+            <span class="row__place">Philadelphia, PA</span>
+          </div>
+          <div class="row__body">
+            <h3>Co-Founder &amp; Software Engineer <span class="row__org">Bridge AI</span></h3>
+            <p>Building an agentic AI system with a <strong>45-tool registry</strong> that takes real CRM
+              actions like creating deals, moving pipeline stages, and drafting follow-ups, all behind
+              confirmation gates, snapshot undo, and trust-gating for anything destructive. Also built the
+              RAG layer on Postgres/pgvector and a routing layer across <strong>7 LLM providers</strong> with
+              fallbacks, consensus voting, and per-call cost tracking.</p>
+          </div>
+        </article>
+
+        <article class="row reveal">
+          <div class="row__meta">
+            <span class="row__time">Jan 2023 – Aug 2025</span>
+            <span class="row__place">Asia</span>
+          </div>
+          <div class="row__body">
+            <h3>Founder / CEO <span class="row__org">Jiro Web Solutions</span></h3>
+            <p>Started a freelance web dev agency serving small businesses across Asia, hired and trained a
+              team of five, and shipped <strong>20+ production sites and apps</strong> with auth, Stripe, and
+              Firebase/Supabase in React, React Native, and Vue.</p>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- RESEARCH -->
+    <section class="section" id="research">
+      <div class="section__label reveal"><span>03</span> Research</div>
+      <div class="rows">
+
+        <article class="row reveal">
+          <div class="row__meta">
+            <span class="row__time">May 2026 – Jul 2026</span>
+            <span class="row__place">Jülich, Germany</span>
+          </div>
+          <div class="row__body">
+            <h3>Research Intern <span class="row__org">RWTH Aachen · Forschungszentrum Jülich</span></h3>
+            <p>Built one EEG pipeline (Python, MNE) across <strong>8 datasets, 504 people, and 8 clinical
+              conditions</strong>. Fit a single microstate model, pulled 24 features per person, and showed
+              the features separate neurodegenerative disease from controls, with an Alzheimer's model that
+              transfers to unseen FTD. Ran the paranoid checks too: age regression, 5,000-shuffle permutation
+              tests, cross-site validation, and ComBat, which caught a spectral confound faking a depression
+              result.</p>
+            <div class="stats">
+              <div class="stat"><b>0.89</b><span>Alzheimer's AUC</span></div>
+              <div class="stat"><b>0.80</b><span>FTD AUC</span></div>
+              <div class="stat"><b>0.92</b><span>AD→FTD transfer</span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="row reveal">
+          <div class="row__meta">
+            <span class="row__time">Jun 2024 – Sep 2024</span>
+            <span class="row__place">Singapore</span>
+          </div>
+          <div class="row__body">
+            <h3>Research Intern <span class="row__org">A*STAR · Centre for Frontier AI Research</span></h3>
+            <p>Benchmarked a range of LLMs on multimodal sarcasm detection under Prof. Cheston Tan, then
+              fine-tuned a custom model on what the benchmarks showed to sharpen context and text-image
+              understanding.</p>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="section" id="projects">
+      <div class="section__label reveal"><span>04</span> Projects</div>
+      <div class="work">
+
+        <article class="work__item reveal">
+          <a class="work__shot" href="https://savi-swar.github.io/vig/" target="_blank" rel="noopener">
+            <img src="assets/vig.png" alt="Vig quant research desk with model health, trailing IC, and decile spread" />
+          </a>
+          <div class="work__body">
+            <div class="work__head">
+              <h3>Vig</h3>
+              <span class="work__tag">Quant Research Platform</span>
+            </div>
+            <p>A quant research engine built to attack its own signal before trusting it. Vol-targeted
+              backtests, walk-forward validation, and <strong>70+ tests</strong> in CI. I rebuilt a
+              point-in-time S&amp;P universe to measure survivorship bias directly, found most of the edge was
+              a backtest artifact, then recovered a smaller real one at half the cost.</p>
+            <div class="work__stack">
+              <span>Python</span><span>pandas / NumPy</span><span>walk-forward CV</span>
+            </div>
+            <div class="work__links">
+              <a href="https://savi-swar.github.io/vig/" target="_blank" rel="noopener">Open the desk ↗</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="work__item work__item--reverse reveal">
+          <a class="work__shot" href="https://github.com/savi-swar/eeg-microstate-pipeline" target="_blank" rel="noopener">
+            <img src="assets/eeg.png" alt="EEG microstate topographies for schizophrenia and healthy controls, classes A to D" />
+          </a>
+          <div class="work__body">
+            <div class="work__head">
+              <h3>EEG Microstate Pipeline</h3>
+              <span class="work__tag">Computational Neuroscience</span>
+            </div>
+            <p>One pipeline across <strong>8 public datasets and 504 people</strong>. It fits a single
+              microstate model, pulls 24 features per person, and classifies brain disorders from a few
+              minutes of resting-state EEG. Alzheimer's separates from controls at <strong>0.89 AUC</strong>,
+              and a model trained on it transfers to FTD it never saw.</p>
+            <div class="work__stack">
+              <span>Python</span><span>MNE</span><span>scikit-learn</span>
+            </div>
+            <div class="work__links">
+              <a href="https://github.com/savi-swar/eeg-microstate-pipeline" target="_blank" rel="noopener">View source ↗</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="work__item reveal">
+          <a class="work__shot" href="https://github.com/Savi-Swar/TimeBank" target="_blank" rel="noopener">
+            <img src="assets/timebank.png" alt="Time Bank kids app showing home, morning routine, and growth stats" />
+          </a>
+          <div class="work__body">
+            <div class="work__head">
+              <h3>Time Bank</h3>
+              <span class="work__tag">Kids' Productivity App</span>
+            </div>
+            <p>A kids' app with its own economy. Kids earn minutes for chores and routines, parents approve
+              requests and stock a reward store, and a dashboard tracks progress. Built in React Native with
+              Firebase, and <strong>live on the App Store and Google Play</strong>.</p>
+            <div class="work__stack">
+              <span>React Native</span><span>Firebase</span><span>Cross-platform</span>
+            </div>
+            <div class="work__links">
+              <a href="https://github.com/Savi-Swar/TimeBank" target="_blank" rel="noopener">View source ↗</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="work__item work__item--reverse reveal">
+          <a class="work__shot" href="https://github.com/Savi-Swar/job-applier" target="_blank" rel="noopener">
+            <img src="assets/japplier.png" alt="Job Applier feed with category, location, and source filters" />
+          </a>
+          <div class="work__body">
+            <div class="work__head">
+              <h3>Job Applier</h3>
+              <span class="work__tag">Chrome Extension</span>
+            </div>
+            <p>A Chrome extension that runs my job hunt. It pulls listings from a bunch of sources into one
+              filterable feed, tracks applications on a calendar, autofills forms, and drafts cover letters
+              with an LLM.</p>
+            <div class="work__stack">
+              <span>Chrome APIs</span><span>JavaScript</span><span>LLM drafting</span>
+            </div>
+            <div class="work__links">
+              <a href="https://github.com/Savi-Swar/job-applier" target="_blank" rel="noopener">View source ↗</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="work__item reveal">
+          <a class="work__shot" href="https://savi-swar.github.io/prime-gaffa/" target="_blank" rel="noopener">
+            <img src="assets/prime-gaffa.png" alt="Prime Gaffa Simulator, a World Cup manager game" />
+          </a>
+          <div class="work__body">
+            <div class="work__head">
+              <h3>Prime Gaffa</h3>
+              <span class="work__tag">Football Manager Sim</span>
+            </div>
+            <p>A World Cup manager game. Open transfer market with player moods, live matches, a tactics
+              board, fatigue, suspensions, and pass-the-laptop multiplayer. The match engine and the whole
+              interface are hand-built from scratch, no game engine involved.</p>
+            <div class="work__stack">
+              <span>JavaScript</span><span>Custom match engine</span><span>Built from scratch</span>
+            </div>
+            <div class="work__links">
+              <a href="https://savi-swar.github.io/prime-gaffa/" target="_blank" rel="noopener">Play live ↗</a>
+              <a href="https://github.com/savi-swar/prime-gaffa" target="_blank" rel="noopener">Source ↗</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section class="section" id="skills">
+      <div class="section__label reveal"><span>05</span> Toolkit</div>
+      <div class="skills">
+        <div class="skills__group reveal">
+          <h4>Languages</h4>
+          <p>Python · TypeScript · JavaScript · C/C++ · Java · SQL</p>
+        </div>
+        <div class="skills__group reveal">
+          <h4>ML / AI</h4>
+          <p>PyTorch · scikit-learn · pandas · NumPy · XGBoost · Hugging Face · MNE-Python · RAG (pgvector)</p>
+        </div>
+        <div class="skills__group reveal">
+          <h4>Web / Backend</h4>
+          <p>React · React Native · Node.js · Express · Next.js · Prisma · REST</p>
+        </div>
+        <div class="skills__group reveal">
+          <h4>Data / Infra</h4>
+          <p>PostgreSQL · Redis · BullMQ · pg-boss · Supabase · Firebase · Docker</p>
+        </div>
+        <div class="skills__group reveal">
+          <h4>Coursework</h4>
+          <p>Data Structures &amp; Algorithms · Computer Systems · Automata &amp; Computability · Probability · Linear Algebra · Discrete Math</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section section--contact" id="contact">
+      <div class="section__label reveal"><span>06</span> Contact</div>
+      <div class="contact reveal">
+        <h2>Say hi.</h2>
+        <p>Always down to talk research, quant, or building things.</p>
+        <div class="contact__links">
+          <a href="mailto:saviswa@seas.upenn.edu">Email</a>
+          <a href="https://linkedin.com/in/savitur-swarup" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://github.com/savi-swar" target="_blank" rel="noopener">GitHub</a>
+          <a href="assets/Savitur_Swarup_Resume.pdf" target="_blank" rel="noopener">Résumé</a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>© 2026 Savitur Swarup</span>
+      <span>Built from scratch · Philadelphia</span>
+    </footer>
+
+  </main>
+
+  <script src="main.js"></script>
+</body>
+</html>
