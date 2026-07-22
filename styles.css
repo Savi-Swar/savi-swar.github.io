@@ -162,18 +162,18 @@ main { position: relative; z-index: 2; }
   min-height: 100svh;
   display: flex; align-items: center;
   max-width: var(--max); margin: 0 auto;
-  padding: 0 2rem;
+  padding: 7rem 2rem 4rem;
 }
-.hero__inner { width: 100%; }
+.hero__inner { width: 100%; min-width: 0; }
 .hero .eyebrow { margin-bottom: 2rem; }
 
 .hero__name {
   font-family: 'Fraunces', serif;
   font-weight: 400;
-  font-size: clamp(3.6rem, 13vw, 10.5rem);
-  line-height: 0.92;
+  font-size: clamp(3rem, 8.5vw, 7rem);
+  line-height: 0.94;
   letter-spacing: -0.02em;
-  margin-bottom: 2rem;
+  margin-bottom: 1.8rem;
 }
 .hero__name .line { display: block; overflow: hidden; padding-bottom: 0.04em; }
 .hero__name .line > span {
@@ -210,17 +210,19 @@ main { position: relative; z-index: 2; }
 .hero__meta .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--muted-2); }
 
 .hero__status {
-  display: inline-flex; align-items: center; gap: 0.6rem;
+  display: inline-flex; align-items: flex-start; gap: 0.6rem;
+  max-width: 100%;
   margin-top: 1.1rem;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.8rem; letter-spacing: 0.02em;
+  font-size: 0.8rem; letter-spacing: 0.02em; line-height: 1.5;
   color: var(--text);
-  border: 1px solid var(--line-2); border-radius: 100px;
-  padding: 0.5rem 1rem 0.5rem 0.85rem;
+  border: 1px solid var(--line-2); border-radius: 22px;
+  padding: 0.55rem 1.1rem 0.55rem 0.9rem;
   background: rgba(126, 201, 143, 0.05);
 }
+.hero__status-txt { min-width: 0; }
 .hero__status-dot {
-  width: 8px; height: 8px; border-radius: 50%;
+  width: 8px; height: 8px; border-radius: 50%; margin-top: 0.32rem;
   background: #7ec98f; flex: none;
   box-shadow: 0 0 0 0 rgba(126, 201, 143, 0.55);
   animation: status-pulse 2.4s ease-out infinite;
@@ -502,7 +504,9 @@ main { position: relative; z-index: 2; }
   .row { grid-template-columns: 1fr; gap: 1rem; }
   .row__meta { flex-direction: row; align-items: baseline; gap: 1rem; }
   .skills { grid-template-columns: 1fr; }
-  .hero__name { font-size: clamp(3.2rem, 20vw, 6rem); }
+  .hero__name { font-size: clamp(2.6rem, 15vw, 4.6rem); }
+  .hero { padding-top: 130px; }
+  .eyebrow { font-size: 0.66rem; letter-spacing: 0.2em; }
   .eeg { max-width: 100%; height: 48px; margin-top: 2.5rem; }
 
   .work { gap: 3rem; }
