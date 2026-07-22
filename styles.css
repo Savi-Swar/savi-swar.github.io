@@ -484,11 +484,14 @@ main { position: relative; z-index: 2; }
 @media (max-width: 820px) {
   .nav {
     flex-wrap: wrap; row-gap: 0.5rem;
+    padding-top: max(0.95rem, env(safe-area-inset-top));
+    padding-right: max(1.2rem, env(safe-area-inset-right));
+    padding-bottom: 0.7rem;
+    padding-left: max(1.2rem, env(safe-area-inset-left));
     background: rgba(11, 11, 13, 0.82);
     backdrop-filter: blur(14px) saturate(140%);
     border-bottom: 1px solid var(--line);
   }
-  .hero { padding-top: 150px; }
   .nav__links {
     display: flex; order: 3; width: 100%; gap: 1.3rem;
     overflow-x: auto; padding-top: 0.5rem;
@@ -498,21 +501,32 @@ main { position: relative; z-index: 2; }
   }
   .nav__links::-webkit-scrollbar { display: none; }
   .nav__links a { white-space: nowrap; font-size: 0.82rem; }
-  .section { padding: 6rem 1.4rem; }
+
+  .hero {
+    padding: calc(128px + env(safe-area-inset-top))
+             max(1.5rem, env(safe-area-inset-right)) 3rem
+             max(1.5rem, env(safe-area-inset-left));
+  }
+  .hero__name { font-size: clamp(2.6rem, 15vw, 4.6rem); }
+  .eyebrow { font-size: 0.66rem; letter-spacing: 0.2em; }
+  .eeg { max-width: 100%; height: 48px; margin-top: 2.5rem; }
+
+  .section {
+    padding: 4.5rem max(1.4rem, env(safe-area-inset-right))
+             4.5rem max(1.4rem, env(safe-area-inset-left));
+  }
   .about { grid-template-columns: 1fr; gap: 2.5rem; }
   .about__photo { max-width: 240px; }
   .row { grid-template-columns: 1fr; gap: 1rem; }
   .row__meta { flex-direction: row; align-items: baseline; gap: 1rem; }
   .skills { grid-template-columns: 1fr; }
-  .hero__name { font-size: clamp(2.6rem, 15vw, 4.6rem); }
-  .hero { padding-top: 130px; }
-  .eyebrow { font-size: 0.66rem; letter-spacing: 0.2em; }
-  .eeg { max-width: 100%; height: 48px; margin-top: 2.5rem; }
 
   .work { gap: 3rem; }
   .work__item, .work__item--reverse { grid-template-columns: 1fr; gap: 1.6rem; }
   .work__item--reverse .work__shot { order: 0; }
 
-  .hl-grid { grid-template-columns: repeat(2, 1fr); }
-  .hl b { font-size: 1.5rem; }
+  .hl-grid { grid-template-columns: repeat(2, 1fr); gap: 0.7rem; }
+  .hl { padding: 1.3rem 1.2rem; }
+  .hl b { font-size: 1.4rem; }
+  .hl span { font-size: 0.62rem; letter-spacing: 0.06em; }
 }
