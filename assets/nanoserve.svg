@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 700" font-family="'SF Mono','JetBrains Mono',ui-monospace,Menlo,monospace">
+  <defs>
+    <radialGradient id="aura" cx="82%" cy="14%" r="70%">
+      <stop offset="0%" stop-color="#a9a6d6" stop-opacity="0.14"/>
+      <stop offset="55%" stop-color="#a9a6d6" stop-opacity="0.03"/>
+      <stop offset="100%" stop-color="#a9a6d6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1120" height="700" fill="#101015"/>
+  <rect width="1120" height="700" fill="url(#aura)"/>
+
+  <!-- title -->
+  <text x="72" y="112" font-family="Georgia,'Times New Roman',serif" font-size="54" fill="#ece9e2">nanoserve</text>
+  <text x="74" y="150" font-size="13.5" letter-spacing="3.5" fill="#a9a6d6">LLM INFERENCE SERVER · BUILT FROM SCRATCH</text>
+  <text x="1048" y="104" text-anchor="end" font-size="13.5" letter-spacing="1.5" fill="#9a978f">throughput · tok/s · fp16 T4</text>
+
+  <!-- bars: engine throughput ladder (peak tok/s, fp16 T4) -->
+  <!-- scale: 285 tok/s -> 798px, x0=250 -->
+  <g>
+    <!-- naive 29 -> 81px -->
+    <text x="72" y="281" font-size="16.5" fill="#9a978f">naive</text>
+    <rect x="250" y="250" width="81" height="46" rx="6" fill="#21212a" stroke="#ece9e2" stroke-opacity="0.12"/>
+    <text x="345" y="281" font-size="18" fill="#9a978f">29</text>
+
+    <!-- static 143 -> 400px -->
+    <text x="72" y="373" font-size="16.5" fill="#9a978f">static</text>
+    <rect x="250" y="342" width="400" height="46" rx="6" fill="#21212a" stroke="#ece9e2" stroke-opacity="0.12"/>
+    <text x="664" y="373" font-size="18" fill="#c8c4bb">143</text>
+
+    <!-- continuous 278 -> 778px  (the winner) -->
+    <text x="72" y="465" font-size="16.5" fill="#ece9e2">continuous</text>
+    <rect x="250" y="434" width="778" height="46" rx="6" fill="#a9a6d6"/>
+    <text x="1012" y="465" font-size="18.5" text-anchor="end" fill="#0b0b0d" font-weight="600">278</text>
+
+    <!-- paged 237 -> 664px -->
+    <text x="72" y="557" font-size="16.5" fill="#9a978f">paged</text>
+    <rect x="250" y="526" width="664" height="46" rx="6" fill="#21212a" stroke="#ece9e2" stroke-opacity="0.12"/>
+    <text x="928" y="557" font-size="18" fill="#c8c4bb">237</text>
+  </g>
+
+  <!-- caption -->
+  <line x1="72" y1="616" x2="1048" y2="616" stroke="#ece9e2" stroke-opacity="0.08"/>
+  <text x="72" y="652" font-size="15.5" fill="#9a978f">
+    <tspan fill="#ece9e2">9.6×</tspan> naive throughput
+    <tspan dx="6" fill="#6d6b66">·</tspan>
+    <tspan dx="6" fill="#ece9e2">16%</tspan> of vLLM
+    <tspan dx="6" fill="#6d6b66">·</tspan>
+    <tspan dx="6" fill="#ece9e2">68%→4%</tspan> KV fragmentation
+    <tspan dx="6" fill="#6d6b66">·</tspan>
+    <tspan dx="6">token-exact</tspan>
+  </text>
+</svg>

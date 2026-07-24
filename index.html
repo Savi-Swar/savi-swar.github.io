@@ -233,6 +233,30 @@
       <div class="work">
 
         <article class="work__item reveal">
+          <a class="work__shot" href="https://github.com/Savi-Swar/nanoserve" target="_blank" rel="noopener">
+            <img src="assets/nanoserve.svg" alt="nanoserve throughput ladder: naive, static, continuous, and paged batching engines on a T4" />
+          </a>
+          <div class="work__body">
+            <div class="work__head">
+              <h3>nanoserve</h3>
+              <span class="work__tag">LLM Inference Server</span>
+            </div>
+            <p>A from-scratch LLM inference server, no custom CUDA — the interesting part is the scheduler. I
+              built the batching ladder from a naive loop up through continuous batching and a paged KV cache,
+              for <strong>9.6× the throughput</strong> at a fraction of the latency, reaching 16% of vLLM on the
+              same GPU. Then I turned it on published optimizations as an audit: every engine is checked
+              token-for-token against a baseline and measured past a noise floor, which killed five of my own
+              first-pass results.</p>
+            <div class="work__stack">
+              <span>Python</span><span>PyTorch</span><span>Continuous batching</span>
+            </div>
+            <div class="work__links">
+              <a href="https://github.com/Savi-Swar/nanoserve" target="_blank" rel="noopener">View source ↗</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="work__item work__item--reverse reveal">
           <a class="work__shot" href="/vig/" target="_blank" rel="noopener">
             <img src="assets/vig.png" alt="Vig quant research desk with model health, trailing IC, and decile spread" />
           </a>
@@ -254,7 +278,7 @@
           </div>
         </article>
 
-        <article class="work__item work__item--reverse reveal">
+        <article class="work__item reveal">
           <a class="work__shot" href="https://github.com/savi-swar/eeg-microstate-pipeline" target="_blank" rel="noopener">
             <img src="assets/eeg.png" alt="EEG microstate topographies for schizophrenia and healthy controls, classes A to D" />
           </a>
@@ -276,7 +300,7 @@
           </div>
         </article>
 
-        <article class="work__item reveal">
+        <article class="work__item work__item--reverse reveal">
           <a class="work__shot" href="https://github.com/Savi-Swar/TimeBank" target="_blank" rel="noopener">
             <img src="assets/timebank.png" alt="Time Bank kids app showing home, morning routine, and growth stats" />
           </a>
