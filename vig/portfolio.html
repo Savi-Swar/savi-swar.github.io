@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta http-equiv="refresh" content="900">
+<title>Vig — Portfolio Builder</title><style>
+:root { color-scheme: dark; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #060708; color: #e6e2d8;
+  font: 14px/1.6 "SF Mono", ui-monospace, "JetBrains Mono", Menlo, monospace;
+  font-variant-numeric: tabular-nums lining-nums;
+  padding: 0 0 70px;
+}
+body::after {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 9;
+  background: repeating-linear-gradient(0deg, rgba(255,255,255,.018) 0 1px, transparent 1px 3px);
+}
+.wrap { padding: 26px 44px 0; }
+a { color: #ffb000; }
+
+/* ── masthead ─────────────────────────────────────────── */
+header { display: flex; align-items: flex-end; justify-content: space-between;
+         flex-wrap: wrap; gap: 12px; padding: 30px 44px 18px; }
+.wordmark { font-size: 58px; font-weight: 800; letter-spacing: -2px; line-height: 1; }
+.tagline { color: #8a9199; font-size: 12px; letter-spacing: 1px; margin-top: 6px; }
+.tagline b { color: #ffb000; font-weight: 600; }
+.stamp-date { color: #8a9199; font-size: 12px; text-align: right; }
+.btn {
+  display: inline-block; border: 1px solid #ffb000; color: #ffb000;
+  padding: 8px 18px; font-size: 12px; letter-spacing: 2px; text-decoration: none;
+  text-transform: uppercase; transition: all .12s;
+}
+.btn:hover { background: #ffb000; color: #060708; }
+
+/* ── tabs (sticky: the screens are always one keystroke away) ── */
+.tabs { display: flex; border-top: 1px solid #22262c; border-bottom: 1px solid #22262c;
+  position: sticky; top: 0; z-index: 40; background: #060708; }
+.tab { flex: 1; text-align: center; padding: 13px 10px; font-size: 12px;
+  letter-spacing: 3px; color: #8a9199; text-decoration: none;
+  border-right: 1px solid #22262c; }
+.tab:last-child { border-right: none; }
+.tab:hover { color: #ffb000; background: rgba(255,176,0,.05); }
+.tab.active { background: #ffb000; color: #060708; font-weight: 700; }
+.tab .k { color: inherit; opacity: .55; margin-right: 8px; }
+
+/* ── tape ─────────────────────────────────────────────── */
+.tape { border-top: 1px dashed #2a2e35; border-bottom: 1px dashed #2a2e35;
+        overflow: hidden; white-space: nowrap; padding: 7px 0; margin: 8px 0 26px; }
+.tape-inner { display: inline-block; animation: tape 55s linear infinite; }
+@keyframes tape { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.tape span { margin: 0 18px; font-size: 12px; color: #8a9199; }
+.tape .up { color: #46ff9a; } .tape .dn { color: #ff5d5d; }
+
+/* ── sections ─────────────────────────────────────────── */
+h2 { font-size: 12px; letter-spacing: 3px; text-transform: uppercase;
+     color: #ffb000; margin: 40px 0 16px; font-weight: 600; }
+h2::before { content: "▚▚ "; }
+h2 .dim { color: #8a9199; }
+
+/* ── health tiles ─────────────────────────────────────── */
+.health { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; }
+.htile { background: #0b0d10; border: 1px solid #22262c; padding: 14px 18px; }
+.hlabel { font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+          color: #8a9199; margin-bottom: 7px; }
+.hval { font-size: 21px; font-weight: 600; }
+.hval .muted { font-size: 12px; font-weight: 400; }
+.led { display: inline-block; width: 9px; height: 9px; margin-right: 9px; }
+.led.green  { background: #46ff9a; box-shadow: 0 0 10px #46ff9a; }
+.led.yellow { background: #ffb000; box-shadow: 0 0 10px #ffb000; }
+.led.red    { background: #ff5d5d; box-shadow: 0 0 10px #ff5d5d; }
+.led.warming{ background: #6ea8fe; box-shadow: 0 0 10px #6ea8fe; }
+.hdetail { font-size: 11.5px; color: #8a9199; margin-top: 6px; }
+.edgemath { font-size: 11.5px; color: #6d747c; margin-top: 12px; max-width: 920px;
+            border-left: 2px solid #22262c; padding-left: 14px; }
+
+/* ── trade cards ──────────────────────────────────────── */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 16px; }
+.card { background: #0b0d10; border: 1px solid #22262c; padding: 20px 22px 16px; position: relative; }
+.card.long  { border-top: 3px solid #46ff9a; }
+.card.short { border-top: 3px solid #ff5d5d; }
+.cardtop { display: flex; justify-content: space-between; align-items: center; }
+.tick { font-size: 34px; font-weight: 800; letter-spacing: 1px; }
+.stamp { border: 2px double; padding: 3px 12px; font-weight: 700; font-size: 13px;
+         letter-spacing: 2px; transform: rotate(-4deg); }
+.stamp.long  { color: #46ff9a; border-color: #46ff9a; }
+.stamp.short { color: #ff5d5d; border-color: #ff5d5d; }
+.spark { margin: 12px 0 8px; display: block; }
+.probrow { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.probbar { flex: 1; height: 5px; background: #191d22; }
+.probfill { height: 100%; }
+.probtxt { font-size: 11.5px; color: #8a9199; white-space: nowrap; }
+ul.why { list-style: none; margin-bottom: 10px; }
+ul.why li { padding-left: 16px; position: relative; margin-bottom: 5px;
+            color: #c9c4b8; font-size: 12.5px; }
+ul.why li::before { content: ">"; position: absolute; left: 0; color: #ffb000; }
+.news a { font-size: 12px; text-decoration: none; }
+.news a:hover { text-decoration: underline; }
+.sizing { margin-top: 10px; font-size: 10.5px; color: #6d747c;
+          border-top: 1px dashed #22262c; padding-top: 8px; }
+
+/* ── tables ───────────────────────────────────────────── */
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media (max-width: 980px) { .cols { grid-template-columns: 1fr; } }
+table { width: 100%; border-collapse: separate; border-spacing: 0;
+        background: #0b0d10; border: 1px solid #22262c; }
+/* numbers read right-to-left: numeric columns right-aligned, headers match;
+   first column (names) left; .tl marks additional text columns */
+th, td { text-align: right; }
+th:first-child, td:first-child, th.tl, td.tl { text-align: left; }
+th { font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+     color: #ffb000; padding: 9px 13px; border-bottom: 1px double #2a2e35;
+     font-weight: 600; cursor: pointer; user-select: none;
+     position: sticky; top: var(--tabs-h, 47px); background: #0e1114; z-index: 5; }
+th:hover { color: #ffd668; }
+th[data-dir="desc"]::after { content: " ▾"; }
+th[data-dir="asc"]::after { content: " ▴"; }
+td { padding: 7px 13px; font-size: 12.5px; border-bottom: 1px solid #14171b; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(255,176,0,.035); }
+.pos { color: #46ff9a; } .neg { color: #ff5d5d; } .muted { color: #6d747c; }
+.win { color: #46ff9a; font-weight: 700; } .loss { color: #ff5d5d; font-weight: 700; }
+
+/* ── filter bar ───────────────────────────────────────── */
+.fbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+  background: #0b0d10; border: 1px solid #22262c; padding: 12px 16px;
+  margin: 6px 0 18px; }
+.fbar input[type=text] { background: #060708; border: 1px solid #2a2e35;
+  color: #e6e2d8; font: 12.5px "SF Mono", ui-monospace, Menlo, monospace;
+  padding: 8px 12px; width: 170px; }
+.fbar input[type=text]:focus { outline: none; border-color: #ffb000; }
+.fb-chip, .fb-side, .bm-btn { border: 1px solid #2a2e35; color: #8a9199;
+  font-size: 11px; padding: 6px 11px; cursor: pointer; background: #0e1114;
+  letter-spacing: .5px; }
+.fb-chip.on, .fb-side.on, .bm-btn.on { border-color: #ffb000; color: #ffb000;
+  background: rgba(255,176,0,.08); }
+.bm-btn.on { font-weight: 700; }
+.fb-prob { display: flex; align-items: center; gap: 8px; font-size: 11px;
+  color: #8a9199; }
+.fb-prob input { accent-color: #ffb000; width: 110px; }
+.fb-reset { color: #6d747c; font-size: 11px; cursor: pointer;
+  text-decoration: underline; margin-left: auto; }
+.fb-count { color: #ffb000; font-size: 11px; }
+
+.commentary { background: #0b0d10; border: 1px solid #22262c;
+              border-left: 3px solid #ffb000; padding: 20px 26px; max-width: 880px; }
+.commentary p { margin-bottom: 11px; color: #c9c4b8; font-size: 13px; }
+.commentary strong { color: #e6e2d8; }
+footer { margin: 48px 44px 0; color: #565d64; font-size: 11px; max-width: 880px;
+         border-top: 1px dashed #2a2e35; padding-top: 14px; }
+.bigchart { background: #0b0d10; border: 1px solid #22262c; padding: 18px; }
+
+td b:hover { color: #ffb000; cursor: pointer; }
+#vp-scrim, #vi-scrim { position: fixed; inset: 0; background: rgba(3,4,5,.82);
+  z-index: 80; display: none; }
+#vp-scrim.open, #vi-scrim.open { display: block; }
+#vp-box { position: fixed; top: 14vh; left: 50%; transform: translateX(-50%);
+  width: 560px; max-width: 92vw; z-index: 90; background: #0b0d10;
+  border: 1px solid #ffb000; box-shadow: 0 30px 80px rgba(0,0,0,.7); }
+#vp-in { width: 100%; background: #060708; border: none; border-bottom: 1px solid #22262c;
+  color: #e6e2d8; font: 18px "SF Mono", ui-monospace, Menlo, monospace;
+  padding: 16px 18px; }
+#vp-in:focus { outline: none; }
+#vp-list { max-height: 320px; overflow-y: auto; }
+.vp-row { display: flex; justify-content: space-between; padding: 10px 18px;
+  cursor: pointer; font-size: 13px; border-bottom: 1px solid #14171b; }
+.vp-row:hover, .vp-row.sel { background: rgba(255,176,0,.08); }
+.vp-row .m { color: #6d747c; font-size: 11px; }
+#vi-card { position: fixed; top: 7vh; left: 50%; transform: translateX(-50%);
+  width: 920px; max-width: 94vw; max-height: 86vh; overflow-y: auto; z-index: 90;
+  background: #0a0c0f; border: 1px solid #ffb000; padding: 26px 30px;
+  box-shadow: 0 30px 80px rgba(0,0,0,.75); }
+#vi-head { display: flex; justify-content: space-between; align-items: baseline;
+  flex-wrap: wrap; gap: 10px; }
+#vi-tick { font-size: 44px; font-weight: 800; letter-spacing: 1px; }
+#vi-sub { color: #8a9199; font-size: 12px; letter-spacing: 1px; }
+#vi-last { font-size: 26px; }
+.vi-chips { display: flex; gap: 10px; flex-wrap: wrap; margin: 14px 0; }
+.vi-chip { border: 1px solid #22262c; padding: 5px 13px; font-size: 12px;
+  color: #9fb0c0; background: #0e1114; }
+.vi-chip b { color: #e6e2d8; }
+#vi-close { cursor: pointer; color: #8a9199; font-size: 18px; }
+#vi-close:hover { color: #e6e2d8; }
+.vi-sect { font-size: 11px; letter-spacing: 2.5px; color: #ffb000;
+  margin: 20px 0 10px; text-transform: uppercase; }
+.vi-sect::before { content: "▚ "; }
+
+#va-btn { cursor: pointer; color: #ffb000; font-size: 11px; letter-spacing: 2px;
+  border: 1px solid #2a2e35; padding: 4px 10px; margin-left: 10px; }
+#va-btn:hover { border-color: #ffb000; }
+#va-panel { position: fixed; right: 0; top: 0; bottom: 0; width: 380px;
+  max-width: 92vw; z-index: 75; background: #0a0c0f; border-left: 1px solid #ffb000;
+  transform: translateX(102%); transition: transform .2s ease; padding: 24px 22px;
+  overflow-y: auto; box-shadow: -30px 0 60px rgba(0,0,0,.55); }
+#va-panel.open { transform: translateX(0); }
+#va-panel h3 { font-size: 13px; letter-spacing: 3px; color: #ffb000; margin-bottom: 4px; }
+#va-panel .s { font-size: 11px; color: #6d747c; margin-bottom: 18px; }
+.va-field { margin-bottom: 14px; }
+.va-field label { display: block; font-size: 10px; letter-spacing: 2px;
+  text-transform: uppercase; color: #8a9199; margin-bottom: 6px; }
+.va-field input, .va-field select { width: 100%; background: #060708;
+  border: 1px solid #2a2e35; color: #e6e2d8; padding: 9px 12px;
+  font: 13px "SF Mono", ui-monospace, Menlo, monospace; }
+.va-field input:focus, .va-field select:focus { outline: none; border-color: #ffb000; }
+.va-row { display: flex; gap: 8px; margin-top: 18px; flex-wrap: wrap; }
+.va-row span { border: 1px solid #2a2e35; color: #8a9199; font-size: 11px;
+  padding: 7px 12px; cursor: pointer; }
+.va-row span:hover { border-color: #ffb000; color: #ffb000; }
+.va-row span.primary { border-color: #ffb000; color: #ffb000; font-weight: 700; }
+.va-note { font-size: 10.5px; color: #565d64; margin-top: 14px; line-height: 1.6; }
+</style></head><body>
+<header>
+  <div>
+    <div class="wordmark">VIG</div>
+    <div class="tagline">the house takes its cut — <b>systematic daily desk</b></div>
+  </div>
+  <div class="stamp-date">2026-07-24 · 12:37:40</div>
+</header>
+<nav class="tabs"><a class="tab" href="index.html"><span class="k">01</span>DESK</a><a class="tab" href="analysis.html"><span class="k">02</span>ANALYSIS</a><a class="tab" href="screener.html"><span class="k">03</span>SCREENER</a><a class="tab" href="past_trades.html"><span class="k">04</span>PAST TRADES</a><a class="tab active" href="portfolio.html"><span class="k">05</span>PORTFOLIO</a><a class="tab" href="research.html"><span class="k">06</span>RESEARCH</a><a class="tab" href="desk.html"><span class="k">07</span>PREDMKT</a></nav>
+
+<div class="wrap">
+<style>
+.pform { display: flex; gap: 26px; flex-wrap: wrap; align-items: flex-end;
+         background: #0b0d10; border: 1px solid #22262c; padding: 20px 24px; }
+.pfield label { display: block; font-size: 10px; letter-spacing: 2px;
+                text-transform: uppercase; color: #8a9199; margin-bottom: 8px; }
+input[type=text] {
+  background: #060708; border: 1px solid #2a2e35; color: #e6e2d8;
+  font: 20px "SF Mono", ui-monospace, Menlo, monospace; padding: 9px 14px; width: 220px;
+}
+input[type=text]:focus { outline: none; border-color: #ffb000; }
+.seg { display: flex; }
+.seg button {
+  background: #060708; border: 1px solid #2a2e35; color: #8a9199;
+  font: 12px "SF Mono", ui-monospace, Menlo, monospace; letter-spacing: 1px;
+  padding: 11px 18px; cursor: pointer; text-transform: uppercase;
+}
+.seg button + button { border-left: none; }
+.seg button.on { background: #ffb000; color: #060708; font-weight: 700; }
+.allocbar { display: flex; height: 26px; border: 1px solid #22262c; margin: 18px 0 6px; }
+.allocbar div { height: 100%; }
+.legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 11px; color: #8a9199; }
+.legend i { display: inline-block; width: 9px; height: 9px; margin-right: 5px; }
+.warn { color: #ffb000; font-size: 12px; margin-top: 10px; }
+.tk-form { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end;
+  background: #0b0d10; border: 1px solid #22262c; padding: 16px 18px; }
+.tk-form input { background: #060708; border: 1px solid #2a2e35; color: #e6e2d8;
+  font: 14px "SF Mono", ui-monospace, Menlo, monospace; padding: 9px 12px; }
+#tk-t { width: 110px; text-transform: uppercase; } #tk-sh { width: 110px; }
+#tk-basis { width: 130px; }
+.tk-form button, .tk-tools span { background: none; border: 1px solid #ffb000;
+  color: #ffb000; font: 700 12px "SF Mono", ui-monospace, Menlo, monospace;
+  padding: 10px 16px; cursor: pointer; letter-spacing: 1px; }
+.tk-form button:hover, .tk-tools span:hover { background: #ffb000; color: #060708; }
+.tk-tools { display: flex; gap: 8px; margin-top: 10px; }
+.tk-tools span { padding: 6px 12px; font-weight: 400; border-color: #2a2e35;
+  color: #8a9199; }
+.tk-x { color: #ff5d5d; cursor: pointer; }
+ul.recs { list-style: none; }
+ul.recs li { padding: 9px 14px 9px 30px; position: relative; margin-bottom: 8px;
+  background: #0b0d10; border: 1px solid #22262c; font-size: 12.5px;
+  color: #c9c4b8; }
+ul.recs li::before { content: "»"; position: absolute; left: 12px; color: #ffb000; }
+ul.recs li.flag { border-left: 3px solid #ff5d5d; }
+ul.recs li.good { border-left: 3px solid #46ff9a; }
+</style>
+<h2>Portfolio builder <span class="dim">/ capital in, allocation out — risk parity core,
+vol-targeted, Vig alpha capped</span></h2>
+<div class="pform">
+  <div class="pfield"><label>Capital (USD)</label>
+    <input type="text" id="cap" value="10,000" inputmode="decimal"></div>
+  <div class="pfield"><label>Risk appetite</label>
+    <div class="seg">
+      <button data-p="conservative">Conservative · 6%</button>
+      <button data-p="balanced" class="on">Balanced · 10%</button>
+      <button data-p="aggressive">Aggressive · 14%</button>
+    </div></div>
+</div>
+<div class="allocbar" id="bar"></div>
+<div class="legend" id="legend"></div>
+
+<h2>The allocation</h2>
+<table><tr><th>Sleeve</th><th>Vehicle</th><th>Weight</th><th>Dollars</th></tr>
+<tbody id="rows"></tbody></table>
+
+<h2>What history says about this mix <span class="dim">/ today's weights replayed through
+2004-present — pain included, promises excluded</span></h2>
+<div class="health" id="stats"></div>
+<div class="warn">Cash sleeve is modeled at 0% return (T-bills would add ~the
+short rate — conservative profiles are understated here). History assumes
+daily rebalancing to fixed weights; a real quarterly-rebalanced book drifts
+and would show modestly deeper drawdowns. Sleeves enter history at their
+inception (BTC 2014+), weights renormalized before that. Historical CAGR is
+what this mix DID, not what it will do. Rebalance quarterly; more often just
+pays your broker.</div>
+
+<h2>Worst episodes for this mix <span class="dim">/ peak → trough → recovery,
+2004-present — know the pain before you size</span></h2>
+<table><tr><th>Depth</th><th>Peak</th><th>Trough</th><th>Recovered</th><th>On your capital</th></tr>
+<tbody id="ddrows"></tbody></table>
+
+<div id="alphasec">
+<h2>Alpha sleeve <span class="dim">/ Vig long book as of 2026-07-23 —
+long-only top decile, equal weight; treat as equity risk with a thin tilt</span></h2>
+<table><tr><th>Ticker</th><th>P(out)</th><th>Last</th><th>Dollars</th><th>Shares</th></tr>
+<tbody id="alpharows"></tbody></table>
+</div>
+
+<h2>My book <span class="dim">/ track your actual positions — stored only in this
+browser; recommendations rebalance you toward the selected profile above</span></h2>
+<div class="tk-form">
+  <div class="pfield"><label>Ticker</label><input id="tk-t" placeholder="AAPL / SPY / IEF"></div>
+  <div class="pfield"><label>Shares</label><input id="tk-sh" inputmode="decimal" placeholder="10"></div>
+  <div class="pfield"><label>Cost basis / share <span class="muted">(optional)</span></label>
+    <input id="tk-basis" inputmode="decimal" placeholder="182.50"></div>
+  <button id="tk-add">ADD</button>
+</div>
+<div class="tk-tools"><span id="tk-export">copy JSON</span>
+<span id="tk-import">paste JSON</span><span id="tk-clear">clear book</span></div>
+<div class="health" id="tk-tiles" style="margin-top:14px"></div>
+<table style="margin-top:14px"><tr><th>Position</th><th class="tl">Sleeve / sector</th>
+<th>Shares</th><th>Last</th><th>Value</th><th>Weight</th><th>P&amp;L</th>
+<th class="tl">Model view (1W)</th><th></th></tr>
+<tbody id="tk-rows"></tbody></table>
+<h2>Rebalance me <span class="dim">/ vs the selected profile — dollar moves, honestly sized</span></h2>
+<ul class="recs" id="tk-recs"></ul>
+
+<script>
+const DATA = {"profiles": {"conservative": {"weights": {"us_equity": 0.1312, "intl_equity": 0.1424, "bonds": 0.3586, "long_bonds": 0.1899, "gold": 0.0938}, "alpha_w": 0.0, "cash_w": 0.0841, "est_vol": 0.06, "fully_invested": false, "capped_at_growth": false, "hist_cagr": 0.0555, "hist_vol": 0.066, "hist_max_dd": -0.1907, "worst_year": {"year": 2022, "ret": -0.1221}, "n_years": 23.3, "top_dd": [{"depth": -0.1907, "peak": "2008-01-03", "trough": "2008-10-27", "recovered": "2009-11-11"}, {"depth": -0.1733, "peak": "2021-09-06", "trough": "2022-10-20", "recovered": "2024-07-05"}, {"depth": -0.1128, "peak": "2018-01-23", "trough": "2018-12-25", "recovered": "2019-08-07"}]}, "balanced": {"weights": {"us_equity": 0.4335, "intl_equity": 0.3377, "bonds": 0.0998, "long_bonds": 0.0529, "gold": 0.0261}, "alpha_w": 0.05, "cash_w": 0.0, "est_vol": 0.0998, "fully_invested": true, "capped_at_growth": false, "hist_cagr": 0.0903, "hist_vol": 0.1274, "hist_max_dd": -0.4367, "worst_year": {"year": 2008, "ret": -0.2849}, "n_years": 23.3, "top_dd": [{"depth": -0.4367, "peak": "2007-10-12", "trough": "2009-03-09", "recovered": "2012-02-09"}, {"depth": -0.2725, "peak": "2020-02-12", "trough": "2020-03-23", "recovered": "2020-07-21"}, {"depth": -0.1963, "peak": "2022-01-04", "trough": "2022-10-12", "recovered": "2023-07-19"}]}, "aggressive": {"weights": {"us_equity": 0.482, "intl_equity": 0.388, "crypto": 0.03}, "alpha_w": 0.1, "cash_w": 0.0, "est_vol": 0.1205, "fully_invested": true, "capped_at_growth": true, "hist_cagr": 0.1102, "hist_vol": 0.1586, "hist_max_dd": -0.5261, "worst_year": {"year": 2008, "ret": -0.3567}, "n_years": 23.3, "top_dd": [{"depth": -0.5261, "peak": "2007-07-13", "trough": "2009-03-09", "recovered": "2013-01-02"}, {"depth": -0.3349, "peak": "2020-02-12", "trough": "2020-03-23", "recovered": "2020-08-26"}, {"depth": -0.2534, "peak": "2017-12-18", "trough": "2018-12-25", "recovered": "2019-11-04"}]}}, "sleeve_etfs": {"us_equity": "VOO / SPY", "intl_equity": "VXUS / VEA", "bonds": "IEF", "long_bonds": "TLT", "gold": "GLD", "crypto": "IBIT / FBTC"}, "alpha_names": [{"ticker": "DAL", "prob": 0.58, "last": 81.97}, {"ticker": "FTNT", "prob": 0.573, "last": 151.54}, {"ticker": "BEN", "prob": 0.563, "last": 32.29}, {"ticker": "MNST", "prob": 0.562, "last": 93.56}, {"ticker": "ECHO", "prob": 0.562, "last": 91.51}, {"ticker": "IEX", "prob": 0.56, "last": 222.22}, {"ticker": "INTC", "prob": 0.559, "last": 100.23}, {"ticker": "CAH", "prob": 0.559, "last": 225.98}, {"ticker": "MAR", "prob": 0.559, "last": 364.47}, {"ticker": "MGM", "prob": 0.559, "last": 44.99}], "as_of": "2026-07-23", "ticker_meta": {"A": {"last": 139.74, "sector": "Health Care"}, "AAPL": {"last": 321.66, "sector": "Information Technology"}, "ABBV": {"last": 256.92, "sector": "Health Care"}, "ABNB": {"last": 137.57, "sector": "Consumer Discretionary"}, "ABT": {"last": 100.75, "sector": "Health Care"}, "ACGL": {"last": 100.1, "sector": "Financials"}, "ACN": {"last": 138.74, "sector": "Information Technology"}, "ADBE": {"last": 212.17, "sector": "Information Technology"}, "ADI": {"last": 380.2, "sector": "Information Technology"}, "ADM": {"last": 86.35, "sector": "Consumer Staples"}, "ADP": {"last": 242.88, "sector": "Industrials"}, "ADSK": {"last": 205.26, "sector": "Information Technology"}, "AEE": {"last": 113.27, "sector": "Utilities"}, "AEP": {"last": 134.92, "sector": "Utilities"}, "AES": {"last": 14.83, "sector": "Utilities"}, "AFL": {"last": 124.34, "sector": "Financials"}, "AIG": {"last": 78.16, "sector": "Financials"}, "AIZ": {"last": 273.8, "sector": "Financials"}, "AJG": {"last": 242.21, "sector": "Financials"}, "AKAM": {"last": 117.37, "sector": "Information Technology"}, "ALB": {"last": 116.91, "sector": "Materials"}, "ALGN": {"last": 168.24, "sector": "Health Care"}, "ALL": {"last": 254.52, "sector": "Financials"}, "ALLE": {"last": 154.57, "sector": "Industrials"}, "AMAT": {"last": 562.8, "sector": "Information Technology"}, "AMCR": {"last": 42.63, "sector": "Materials"}, "AMD": {"last": 539.69, "sector": "Information Technology"}, "AME": {"last": 241.14, "sector": "Industrials"}, "AMGN": {"last": 371.5, "sector": "Health Care"}, "AMP": {"last": 520.11, "sector": "Financials"}, "AMT": {"last": 164.65, "sector": "Real Estate"}, "AMZN": {"last": 233.66, "sector": "Consumer Discretionary"}, "ANET": {"last": 176.61, "sector": "Information Technology"}, "AON": {"last": 355.78, "sector": "Financials"}, "AOS": {"last": 59.49, "sector": "Industrials"}, "APA": {"last": 36.42, "sector": "Energy"}, "APD": {"last": 294.29, "sector": "Materials"}, "APH": {"last": 157.43, "sector": "Information Technology"}, "APO": {"last": 119.0, "sector": "Financials"}, "APP": {"last": 398.86, "sector": "Information Technology"}, "APTV": {"last": 56.1, "sector": "Consumer Discretionary"}, "ARE": {"last": 50.12, "sector": "Real Estate"}, "ARES": {"last": 121.28, "sector": "Financials"}, "ATO": {"last": 178.04, "sector": "Utilities"}, "AVB": {"last": 190.8, "sector": "Real Estate"}, "AVGO": {"last": 392.47, "sector": "Information Technology"}, "AVY": {"last": 155.2, "sector": "Materials"}, "AWK": {"last": 134.41, "sector": "Utilities"}, "AXON": {"last": 491.9, "sector": "Industrials"}, "AXP": {"last": 340.84, "sector": "Financials"}, "AZO": {"last": 2923.5, "sector": "Consumer Discretionary"}, "BA": {"last": 209.23, "sector": "Industrials"}, "BAC": {"last": 61.28, "sector": "Financials"}, "BALL": {"last": 62.23, "sector": "Materials"}, "BAX": {"last": 21.67, "sector": "Health Care"}, "BBY": {"last": 84.43, "sector": "Consumer Discretionary"}, "BDX": {"last": 152.97, "sector": "Health Care"}, "BEN": {"last": 32.29, "sector": "Financials"}, "BF-B": {"last": 25.7, "sector": "Consumer Staples"}, "BG": {"last": 122.3, "sector": "Consumer Staples"}, "BIIB": {"last": 200.62, "sector": "Health Care"}, "BKNG": {"last": 172.83, "sector": "Consumer Discretionary"}, "BKR": {"last": 56.09, "sector": "Energy"}, "BLDR": {"last": 70.55, "sector": "Industrials"}, "BLK": {"last": 1037.16, "sector": "Financials"}, "BMY": {"last": 61.51, "sector": "Health Care"}, "BNY": {"last": 160.11, "sector": "Financials"}, "BR": {"last": 144.4, "sector": "Industrials"}, "BRK-B": {"last": 490.85, "sector": "Financials"}, "BRO": {"last": 65.74, "sector": "Financials"}, "BSX": {"last": 43.58, "sector": "Health Care"}, "BX": {"last": 124.5, "sector": "Financials"}, "BXP": {"last": 67.84, "sector": "Real Estate"}, "C": {"last": 131.88, "sector": "Financials"}, "CAH": {"last": 225.98, "sector": "Health Care"}, "CARR": {"last": 69.15, "sector": "Industrials"}, "CASY": {"last": 875.25, "sector": "Consumer Staples"}, "CAT": {"last": 894.54, "sector": "Industrials"}, "CB": {"last": 353.25, "sector": "Financials"}, "CBOE": {"last": 284.86, "sector": "Financials"}, "CBRE": {"last": 135.55, "sector": "Real Estate"}, "CCI": {"last": 74.57, "sector": "Real Estate"}, "CCL": {"last": 25.27, "sector": "Consumer Discretionary"}, "CDNS": {"last": 330.46, "sector": "Information Technology"}, "CDW": {"last": 130.18, "sector": "Information Technology"}, "CEG": {"last": 275.6, "sector": "Utilities"}, "CF": {"last": 126.71, "sector": "Materials"}, "CFG": {"last": 71.8, "sector": "Financials"}, "CHD": {"last": 96.19, "sector": "Consumer Staples"}, "CHRW": {"last": 205.51, "sector": "Industrials"}, "CHTR": {"last": 126.5, "sector": "Communication Services"}, "CI": {"last": 286.29, "sector": "Health Care"}, "CIEN": {"last": 407.53, "sector": "Information Technology"}, "CINF": {"last": 179.38, "sector": "Financials"}, "CL": {"last": 90.08, "sector": "Consumer Staples"}, "CLX": {"last": 93.8, "sector": "Consumer Staples"}, "CMCSA": {"last": 21.92, "sector": "Communication Services"}, "CME": {"last": 254.32, "sector": "Financials"}, "CMG": {"last": 32.01, "sector": "Consumer Discretionary"}, "CMI": {"last": 665.03, "sector": "Industrials"}, "CMS": {"last": 74.15, "sector": "Utilities"}, "CNC": {"last": 63.74, "sector": "Health Care"}, "CNP": {"last": 44.23, "sector": "Utilities"}, "COF": {"last": 199.96, "sector": "Financials"}, "COHR": {"last": 313.22, "sector": "Information Technology"}, "COIN": {"last": 161.16, "sector": "Financials"}, "COO": {"last": 70.23, "sector": "Health Care"}, "COP": {"last": 120.2, "sector": "Energy"}, "COR": {"last": 305.06, "sector": "Health Care"}, "COST": {"last": 926.06, "sector": "Consumer Staples"}, "CPAY": {"last": 364.8, "sector": "Financials"}, "CPRT": {"last": 27.2, "sector": "Industrials"}, "CPT": {"last": 112.84, "sector": "Real Estate"}, "CRH": {"last": 98.02, "sector": "Materials"}, "CRL": {"last": 229.29, "sector": "Health Care"}, "CRM": {"last": 156.93, "sector": "Information Technology"}, "CRWD": {"last": 183.42, "sector": "Information Technology"}, "CSCO": {"last": 112.76, "sector": "Information Technology"}, "CSGP": {"last": 27.14, "sector": "Real Estate"}, "CSX": {"last": 52.81, "sector": "Industrials"}, "CTAS": {"last": 203.25, "sector": "Industrials"}, "CTSH": {"last": 43.01, "sector": "Information Technology"}, "CTVA": {"last": 88.78, "sector": "Materials"}, "CVNA": {"last": 60.19, "sector": "Consumer Discretionary"}, "CVS": {"last": 106.89, "sector": "Health Care"}, "CVX": {"last": 194.42, "sector": "Energy"}, "D": {"last": 71.46, "sector": "Utilities"}, "DAL": {"last": 81.97, "sector": "Industrials"}, "DASH": {"last": 169.77, "sector": "Consumer Discretionary"}, "DD": {"last": 137.4, "sector": "Materials"}, "DDOG": {"last": 244.39, "sector": "Information Technology"}, "DE": {"last": 610.02, "sector": "Industrials"}, "DECK": {"last": 96.23, "sector": "Consumer Discretionary"}, "DELL": {"last": 439.34, "sector": "Information Technology"}, "DG": {"last": 115.16, "sector": "Consumer Staples"}, "DGX": {"last": 227.9, "sector": "Health Care"}, "DHI": {"last": 142.12, "sector": "Consumer Discretionary"}, "DHR": {"last": 192.5, "sector": "Health Care"}, "DIS": {"last": 92.83, "sector": "Communication Services"}, "DLR": {"last": 179.34, "sector": "Real Estate"}, "DLTR": {"last": 117.65, "sector": "Consumer Staples"}, "DOC": {"last": 22.08, "sector": "Real Estate"}, "DOV": {"last": 197.8, "sector": "Industrials"}, "DOW": {"last": 30.9, "sector": "Materials"}, "DPZ": {"last": 323.25, "sector": "Consumer Discretionary"}, "DRI": {"last": 194.12, "sector": "Consumer Discretionary"}, "DTE": {"last": 148.13, "sector": "Utilities"}, "DUK": {"last": 129.26, "sector": "Utilities"}, "DVA": {"last": 234.27, "sector": "Health Care"}, "DVN": {"last": 45.29, "sector": "Energy"}, "DXCM": {"last": 70.48, "sector": "Health Care"}, "EA": {"last": 209.0, "sector": "Communication Services"}, "EBAY": {"last": 109.32, "sector": "Consumer Discretionary"}, "ECHO": {"last": 91.51, "sector": "Communication Services"}, "ECL": {"last": 263.14, "sector": "Materials"}, "ED": {"last": 112.79, "sector": "Utilities"}, "EFX": {"last": 166.72, "sector": "Industrials"}, "EG": {"last": 375.56, "sector": "Financials"}, "EIX": {"last": 79.64, "sector": "Utilities"}, "EL": {"last": 79.92, "sector": "Consumer Staples"}, "ELV": {"last": 379.31, "sector": "Health Care"}, "EME": {"last": 769.07, "sector": "Industrials"}, "EMR": {"last": 144.9, "sector": "Industrials"}, "EOG": {"last": 145.49, "sector": "Energy"}, "EQIX": {"last": 1033.55, "sector": "Real Estate"}, "EQR": {"last": 68.28, "sector": "Real Estate"}, "EQT": {"last": 53.39, "sector": "Energy"}, "ERIE": {"last": 214.52, "sector": "Financials"}, "ES": {"last": 74.62, "sector": "Utilities"}, "ESS": {"last": 293.2, "sector": "Real Estate"}, "ETN": {"last": 415.13, "sector": "Industrials"}, "ETR": {"last": 115.8, "sector": "Utilities"}, "EVRG": {"last": 86.65, "sector": "Utilities"}, "EW": {"last": 83.82, "sector": "Health Care"}, "EXC": {"last": 47.28, "sector": "Utilities"}, "EXE": {"last": 91.73, "sector": "Energy"}, "EXPD": {"last": 176.18, "sector": "Industrials"}, "EXPE": {"last": 257.61, "sector": "Consumer Discretionary"}, "EXR": {"last": 145.42, "sector": "Real Estate"}, "F": {"last": 14.15, "sector": "Consumer Discretionary"}, "FANG": {"last": 205.49, "sector": "Energy"}, "FAST": {"last": 46.15, "sector": "Industrials"}, "FCX": {"last": 63.5, "sector": "Materials"}, "FDS": {"last": 243.96, "sector": "Financials"}, "FDX": {"last": 315.62, "sector": "Industrials"}, "FDXF": {"last": 154.79, "sector": "Industrials"}, "FE": {"last": 49.49, "sector": "Utilities"}, "FFIV": {"last": 388.08, "sector": "Information Technology"}, "FICO": {"last": 1206.19, "sector": "Information Technology"}, "FIS": {"last": 40.04, "sector": "Financials"}, "FISV": {"last": 49.97, "sector": "Financials"}, "FITB": {"last": 57.15, "sector": "Financials"}, "FIX": {"last": 1831.15, "sector": "Industrials"}, "FLEX": {"last": 127.94, "sector": "Information Technology"}, "FOX": {"last": 49.18, "sector": "Communication Services"}, "FOXA": {"last": 55.09, "sector": "Communication Services"}, "FRT": {"last": 124.83, "sector": "Real Estate"}, "FSLR": {"last": 205.92, "sector": "Information Technology"}, "FTNT": {"last": 151.54, "sector": "Information Technology"}, "FTV": {"last": 60.62, "sector": "Industrials"}, "GD": {"last": 381.79, "sector": "Industrials"}, "GDDY": {"last": 87.62, "sector": "Information Technology"}, "GE": {"last": 349.0, "sector": "Industrials"}, "GEHC": {"last": 61.99, "sector": "Health Care"}, "GEN": {"last": 25.07, "sector": "Information Technology"}, "GEV": {"last": 1031.19, "sector": "Industrials"}, "GILD": {"last": 130.86, "sector": "Health Care"}, "GIS": {"last": 35.55, "sector": "Consumer Staples"}, "GL": {"last": 171.08, "sector": "Financials"}, "GLW": {"last": 156.06, "sector": "Information Technology"}, "GM": {"last": 80.67, "sector": "Consumer Discretionary"}, "GNRC": {"last": 210.5, "sector": "Industrials"}, "GOOG": {"last": 318.34, "sector": "Communication Services"}, "GOOGL": {"last": 317.69, "sector": "Communication Services"}, "GPC": {"last": 120.05, "sector": "Consumer Discretionary"}, "GPN": {"last": 77.86, "sector": "Financials"}, "GRMN": {"last": 240.1, "sector": "Consumer Discretionary"}, "GS": {"last": 1074.72, "sector": "Financials"}, "GWW": {"last": 1367.46, "sector": "Industrials"}, "HAL": {"last": 32.71, "sector": "Energy"}, "HAS": {"last": 87.35, "sector": "Consumer Discretionary"}, "HBAN": {"last": 17.4, "sector": "Financials"}, "HCA": {"last": 376.5, "sector": "Health Care"}, "HD": {"last": 324.71, "sector": "Consumer Discretionary"}, "HIG": {"last": 142.18, "sector": "Financials"}, "HII": {"last": 287.09, "sector": "Industrials"}, "HLT": {"last": 320.18, "sector": "Consumer Discretionary"}, "HON": {"last": 246.27, "sector": "Industrials"}, "HONA": {"last": 195.87, "sector": "Industrials"}, "HOOD": {"last": 101.58, "sector": "Financials"}, "HPE": {"last": 47.64, "sector": "Information Technology"}, "HPQ": {"last": 24.51, "sector": "Information Technology"}, "HRL": {"last": 25.02, "sector": "Consumer Staples"}, "HSIC": {"last": 84.53, "sector": "Health Care"}, "HST": {"last": 23.96, "sector": "Real Estate"}, "HSY": {"last": 172.14, "sector": "Consumer Staples"}, "HUBB": {"last": 488.38, "sector": "Industrials"}, "HUM": {"last": 394.5, "sector": "Health Care"}, "HWM": {"last": 287.09, "sector": "Industrials"}, "IBKR": {"last": 91.76, "sector": "Financials"}, "IBM": {"last": 206.65, "sector": "Information Technology"}, "ICE": {"last": 143.21, "sector": "Financials"}, "IDXX": {"last": 539.37, "sector": "Health Care"}, "IEX": {"last": 222.22, "sector": "Industrials"}, "IFF": {"last": 73.77, "sector": "Materials"}, "INCY": {"last": 116.69, "sector": "Health Care"}, "INTC": {"last": 100.23, "sector": "Information Technology"}, "INTU": {"last": 281.53, "sector": "Information Technology"}, "INVH": {"last": 29.44, "sector": "Real Estate"}, "IP": {"last": 37.91, "sector": "Materials"}, "IQV": {"last": 207.32, "sector": "Health Care"}, "IR": {"last": 84.31, "sector": "Industrials"}, "IRM": {"last": 124.55, "sector": "Real Estate"}, "ISRG": {"last": 332.02, "sector": "Health Care"}, "IT": {"last": 133.69, "sector": "Information Technology"}, "ITW": {"last": 276.91, "sector": "Industrials"}, "IVZ": {"last": 29.8, "sector": "Financials"}, "J": {"last": 132.0, "sector": "Industrials"}, "JBHT": {"last": 289.37, "sector": "Industrials"}, "JBL": {"last": 322.04, "sector": "Information Technology"}, "JCI": {"last": 143.29, "sector": "Industrials"}, "JKHY": {"last": 148.23, "sector": "Financials"}, "JNJ": {"last": 259.27, "sector": "Health Care"}, "JPM": {"last": 349.9, "sector": "Financials"}, "KDP": {"last": 29.67, "sector": "Consumer Staples"}, "KEY": {"last": 22.72, "sector": "Financials"}, "KEYS": {"last": 325.13, "sector": "Information Technology"}, "KHC": {"last": 25.36, "sector": "Consumer Staples"}, "KIM": {"last": 25.74, "sector": "Real Estate"}, "KKR": {"last": 95.97, "sector": "Financials"}, "KLAC": {"last": 218.73, "sector": "Information Technology"}, "KMB": {"last": 107.31, "sector": "Consumer Staples"}, "KMI": {"last": 32.77, "sector": "Energy"}, "KO": {"last": 81.17, "sector": "Consumer Staples"}, "KR": {"last": 55.76, "sector": "Consumer Staples"}, "KVUE": {"last": 18.9, "sector": "Consumer Staples"}, "L": {"last": 115.63, "sector": "Financials"}, "LDOS": {"last": 110.33, "sector": "Industrials"}, "LEN": {"last": 82.13, "sector": "Consumer Discretionary"}, "LH": {"last": 291.02, "sector": "Health Care"}, "LHX": {"last": 299.67, "sector": "Industrials"}, "LII": {"last": 537.89, "sector": "Industrials"}, "LIN": {"last": 506.32, "sector": "Materials"}, "LITE": {"last": 833.64, "sector": "Information Technology"}, "LLY": {"last": 1185.87, "sector": "Health Care"}, "LMT": {"last": 568.59, "sector": "Industrials"}, "LNT": {"last": 74.42, "sector": "Utilities"}, "LOW": {"last": 201.92, "sector": "Consumer Discretionary"}, "LRCX": {"last": 319.78, "sector": "Information Technology"}, "LULU": {"last": 110.63, "sector": "Consumer Discretionary"}, "LUV": {"last": 44.71, "sector": "Industrials"}, "LVS": {"last": 46.03, "sector": "Consumer Discretionary"}, "LYB": {"last": 61.72, "sector": "Materials"}, "LYV": {"last": 176.06, "sector": "Communication Services"}, "MA": {"last": 530.29, "sector": "Financials"}, "MAA": {"last": 132.75, "sector": "Real Estate"}, "MAR": {"last": 364.47, "sector": "Consumer Discretionary"}, "MAS": {"last": 77.34, "sector": "Industrials"}, "MCD": {"last": 262.8, "sector": "Consumer Discretionary"}, "MCHP": {"last": 81.35, "sector": "Information Technology"}, "MCK": {"last": 824.49, "sector": "Health Care"}, "MCO": {"last": 472.24, "sector": "Financials"}, "MDLZ": {"last": 60.05, "sector": "Consumer Staples"}, "MDT": {"last": 82.01, "sector": "Health Care"}, "MET": {"last": 92.54, "sector": "Financials"}, "META": {"last": 606.1, "sector": "Communication Services"}, "MGM": {"last": 44.99, "sector": "Consumer Discretionary"}, "MKC": {"last": 50.19, "sector": "Consumer Staples"}, "MLM": {"last": 546.87, "sector": "Materials"}, "MMM": {"last": 169.59, "sector": "Industrials"}, "MNST": {"last": 93.56, "sector": "Consumer Staples"}, "MO": {"last": 72.08, "sector": "Consumer Staples"}, "MOS": {"last": 22.28, "sector": "Materials"}, "MPC": {"last": 312.27, "sector": "Energy"}, "MPWR": {"last": 1397.15, "sector": "Information Technology"}, "MRK": {"last": 130.48, "sector": "Health Care"}, "MRNA": {"last": 57.02, "sector": "Health Care"}, "MRSH": {"last": 176.4, "sector": "Financials"}, "MRVL": {"last": 209.32, "sector": "Information Technology"}, "MS": {"last": 215.18, "sector": "Financials"}, "MSCI": {"last": 552.51, "sector": "Financials"}, "MSFT": {"last": 381.58, "sector": "Information Technology"}, "MSI": {"last": 407.02, "sector": "Information Technology"}, "MTB": {"last": 245.97, "sector": "Financials"}, "MTD": {"last": 1331.87, "sector": "Health Care"}, "MU": {"last": 990.21, "sector": "Information Technology"}, "NCLH": {"last": 18.71, "sector": "Consumer Discretionary"}, "NDAQ": {"last": 90.42, "sector": "Financials"}, "NDSN": {"last": 292.1, "sector": "Industrials"}, "NEE": {"last": 89.79, "sector": "Utilities"}, "NEM": {"last": 94.72, "sector": "Materials"}, "NFLX": {"last": 68.89, "sector": "Communication Services"}, "NI": {"last": 46.75, "sector": "Utilities"}, "NKE": {"last": 40.99, "sector": "Consumer Discretionary"}, "NOC": {"last": 533.48, "sector": "Industrials"}, "NOW": {"last": 91.94, "sector": "Information Technology"}, "NRG": {"last": 142.99, "sector": "Utilities"}, "NSC": {"last": 348.55, "sector": "Industrials"}, "NTAP": {"last": 164.64, "sector": "Information Technology"}, "NTRS": {"last": 177.95, "sector": "Financials"}, "NUE": {"last": 241.15, "sector": "Materials"}, "NVDA": {"last": 208.76, "sector": "Information Technology"}, "NVR": {"last": 6155.02, "sector": "Consumer Discretionary"}, "NWS": {"last": 29.75, "sector": "Communication Services"}, "NWSA": {"last": 26.33, "sector": "Communication Services"}, "NXPI": {"last": 277.29, "sector": "Information Technology"}, "O": {"last": 64.72, "sector": "Real Estate"}, "ODFL": {"last": 230.71, "sector": "Industrials"}, "OKE": {"last": 93.23, "sector": "Energy"}, "OMC": {"last": 77.9, "sector": "Communication Services"}, "ON": {"last": 90.13, "sector": "Information Technology"}, "ORCL": {"last": 120.04, "sector": "Information Technology"}, "ORLY": {"last": 86.11, "sector": "Consumer Discretionary"}, "OTIS": {"last": 70.77, "sector": "Industrials"}, "OXY": {"last": 57.6, "sector": "Energy"}, "PANW": {"last": 325.63, "sector": "Information Technology"}, "PAYX": {"last": 110.66, "sector": "Industrials"}, "PCAR": {"last": 130.75, "sector": "Industrials"}, "PCG": {"last": 17.54, "sector": "Utilities"}, "PEG": {"last": 79.77, "sector": "Utilities"}, "PEP": {"last": 134.95, "sector": "Consumer Staples"}, "PFE": {"last": 25.01, "sector": "Health Care"}, "PFG": {"last": 107.32, "sector": "Financials"}, "PG": {"last": 146.97, "sector": "Consumer Staples"}, "PGR": {"last": 207.07, "sector": "Financials"}, "PH": {"last": 985.48, "sector": "Industrials"}, "PHM": {"last": 124.67, "sector": "Consumer Discretionary"}, "PKG": {"last": 233.9, "sector": "Materials"}, "PLD": {"last": 145.12, "sector": "Real Estate"}, "PLTR": {"last": 123.37, "sector": "Information Technology"}, "PM": {"last": 191.12, "sector": "Consumer Staples"}, "PNC": {"last": 249.26, "sector": "Financials"}, "PNR": {"last": 62.07, "sector": "Industrials"}, "PNW": {"last": 105.43, "sector": "Utilities"}, "PODD": {"last": 158.38, "sector": "Health Care"}, "PPG": {"last": 113.75, "sector": "Materials"}, "PPL": {"last": 36.24, "sector": "Utilities"}, "PRU": {"last": 117.84, "sector": "Financials"}, "PSA": {"last": 315.01, "sector": "Real Estate"}, "PSKY": {"last": 8.49, "sector": "Communication Services"}, "PSX": {"last": 206.98, "sector": "Energy"}, "PTC": {"last": 113.05, "sector": "Information Technology"}, "PWR": {"last": 653.8, "sector": "Industrials"}, "PYPL": {"last": 56.0, "sector": "Financials"}, "Q": {"last": 138.66, "sector": "Information Technology"}, "QCOM": {"last": 171.11, "sector": "Information Technology"}, "RCL": {"last": 283.41, "sector": "Consumer Discretionary"}, "REG": {"last": 81.18, "sector": "Real Estate"}, "REGN": {"last": 651.91, "sector": "Health Care"}, "RF": {"last": 30.66, "sector": "Financials"}, "RJF": {"last": 166.14, "sector": "Financials"}, "RL": {"last": 371.69, "sector": "Consumer Discretionary"}, "RMD": {"last": 191.89, "sector": "Health Care"}, "ROK": {"last": 460.65, "sector": "Industrials"}, "ROL": {"last": 39.44, "sector": "Industrials"}, "ROP": {"last": 355.12, "sector": "Information Technology"}, "ROST": {"last": 232.39, "sector": "Consumer Discretionary"}, "RSG": {"last": 217.42, "sector": "Industrials"}, "RTX": {"last": 209.16, "sector": "Industrials"}, "RVTY": {"last": 113.17, "sector": "Health Care"}, "SBAC": {"last": 174.85, "sector": "Real Estate"}, "SBUX": {"last": 103.21, "sector": "Consumer Discretionary"}, "SCHW": {"last": 101.61, "sector": "Financials"}, "SHW": {"last": 310.54, "sector": "Materials"}, "SJM": {"last": 115.71, "sector": "Consumer Staples"}, "SLB": {"last": 47.22, "sector": "Energy"}, "SMCI": {"last": 31.2, "sector": "Information Technology"}, "SNA": {"last": 395.41, "sector": "Industrials"}, "SNDK": {"last": 1610.33, "sector": "Information Technology"}, "SNPS": {"last": 373.52, "sector": "Information Technology"}, "SO": {"last": 96.6, "sector": "Utilities"}, "SOLV": {"last": 77.24, "sector": "Health Care"}, "SPG": {"last": 225.2, "sector": "Real Estate"}, "SPGI": {"last": 420.0, "sector": "Financials"}, "SRE": {"last": 93.44, "sector": "Utilities"}, "STE": {"last": 210.64, "sector": "Health Care"}, "STLD": {"last": 240.57, "sector": "Materials"}, "STT": {"last": 184.21, "sector": "Financials"}, "STX": {"last": 913.36, "sector": "Information Technology"}, "STZ": {"last": 129.27, "sector": "Consumer Staples"}, "SW": {"last": 43.71, "sector": "Materials"}, "SWK": {"last": 87.41, "sector": "Industrials"}, "SWKS": {"last": 60.47, "sector": "Information Technology"}, "SYF": {"last": 71.77, "sector": "Financials"}, "SYK": {"last": 318.97, "sector": "Health Care"}, "SYY": {"last": 81.73, "sector": "Consumer Staples"}, "T": {"last": 22.96, "sector": "Communication Services"}, "TAP": {"last": 40.04, "sector": "Consumer Staples"}, "TDG": {"last": 1213.83, "sector": "Industrials"}, "TDY": {"last": 651.22, "sector": "Information Technology"}, "TECH": {"last": 71.77, "sector": "Health Care"}, "TEL": {"last": 198.79, "sector": "Information Technology"}, "TER": {"last": 373.75, "sector": "Information Technology"}, "TFC": {"last": 51.2, "sector": "Financials"}, "TGT": {"last": 134.48, "sector": "Consumer Staples"}, "TJX": {"last": 153.48, "sector": "Consumer Discretionary"}, "TKO": {"last": 179.43, "sector": "Communication Services"}, "TMO": {"last": 572.32, "sector": "Health Care"}, "TMUS": {"last": 170.42, "sector": "Communication Services"}, "TPL": {"last": 425.55, "sector": "Energy"}, "TPR": {"last": 139.13, "sector": "Consumer Discretionary"}, "TRGP": {"last": 285.58, "sector": "Energy"}, "TRMB": {"last": 50.35, "sector": "Information Technology"}, "TROW": {"last": 114.95, "sector": "Financials"}, "TRV": {"last": 376.37, "sector": "Financials"}, "TSCO": {"last": 30.32, "sector": "Consumer Discretionary"}, "TSLA": {"last": 319.69, "sector": "Consumer Discretionary"}, "TSN": {"last": 56.75, "sector": "Consumer Staples"}, "TT": {"last": 479.71, "sector": "Industrials"}, "TTD": {"last": 16.79, "sector": "Communication Services"}, "TTWO": {"last": 230.25, "sector": "Communication Services"}, "TXN": {"last": 284.99, "sector": "Information Technology"}, "TXT": {"last": 93.19, "sector": "Industrials"}, "TYL": {"last": 288.16, "sector": "Information Technology"}, "UAL": {"last": 115.35, "sector": "Industrials"}, "UBER": {"last": 68.91, "sector": "Industrials"}, "UDR": {"last": 39.48, "sector": "Real Estate"}, "UHS": {"last": 151.27, "sector": "Health Care"}, "ULTA": {"last": 477.96, "sector": "Consumer Discretionary"}, "UNH": {"last": 423.56, "sector": "Health Care"}, "UNP": {"last": 304.33, "sector": "Industrials"}, "UPS": {"last": 114.1, "sector": "Industrials"}, "URI": {"last": 1139.71, "sector": "Industrials"}, "USB": {"last": 63.33, "sector": "Financials"}, "V": {"last": 351.6, "sector": "Financials"}, "VEEV": {"last": 179.58, "sector": "Health Care"}, "VICI": {"last": 26.32, "sector": "Real Estate"}, "VLO": {"last": 305.26, "sector": "Energy"}, "VLTO": {"last": 91.5, "sector": "Industrials"}, "VMC": {"last": 274.93, "sector": "Materials"}, "VRSK": {"last": 193.17, "sector": "Industrials"}, "VRSN": {"last": 261.58, "sector": "Information Technology"}, "VRT": {"last": 304.04, "sector": "Industrials"}, "VRTX": {"last": 473.09, "sector": "Health Care"}, "VST": {"last": 168.98, "sector": "Utilities"}, "VTR": {"last": 97.92, "sector": "Real Estate"}, "VTRS": {"last": 17.28, "sector": "Health Care"}, "VZ": {"last": 43.82, "sector": "Communication Services"}, "WAB": {"last": 297.99, "sector": "Industrials"}, "WAT": {"last": 382.41, "sector": "Health Care"}, "WBD": {"last": 25.95, "sector": "Communication Services"}, "WDAY": {"last": 127.87, "sector": "Information Technology"}, "WDC": {"last": 558.3, "sector": "Information Technology"}, "WEC": {"last": 114.72, "sector": "Utilities"}, "WELL": {"last": 247.05, "sector": "Real Estate"}, "WFC": {"last": 86.19, "sector": "Financials"}, "WM": {"last": 237.27, "sector": "Industrials"}, "WMB": {"last": 75.25, "sector": "Energy"}, "WMT": {"last": 108.4, "sector": "Consumer Staples"}, "WRB": {"last": 73.43, "sector": "Financials"}, "WSM": {"last": 218.6, "sector": "Consumer Discretionary"}, "WST": {"last": 355.48, "sector": "Health Care"}, "WTW": {"last": 288.37, "sector": "Financials"}, "WY": {"last": 23.64, "sector": "Real Estate"}, "WYNN": {"last": 96.77, "sector": "Consumer Discretionary"}, "XEL": {"last": 80.77, "sector": "Utilities"}, "XOM": {"last": 156.89, "sector": "Energy"}, "XYL": {"last": 116.87, "sector": "Industrials"}, "XYZ": {"last": 76.49, "sector": "Financials"}, "YUM": {"last": 147.37, "sector": "Consumer Discretionary"}, "ZBH": {"last": 89.65, "sector": "Health Care"}, "ZBRA": {"last": 256.95, "sector": "Information Technology"}, "ZTS": {"last": 74.57, "sector": "Health Care"}}, "long_decile": ["DAL", "FTNT", "BEN", "MNST", "ECHO", "IEX", "INTC", "CAH", "MAR", "MGM", "WST", "CHRW", "EBAY", "TSN", "GOOGL", "LUV", "GOOG", "DDOG", "EXPD", "CNC", "UAL", "GL", "TPR", "WSM", "PFG", "AIZ", "SNDK", "MRVL", "WBD", "PLD", "MO", "ODFL", "RL", "MTB", "FDX", "KEY", "NTRS", "F", "LYV", "ROK", "SNA", "HAL", "ALB", "REGN", "PNC", "PANW", "FTV", "DVA", "FITB", "HWM"], "short_decile": ["ARES", "TTD", "BSX", "DLR", "IT", "NOC", "AWK", "CMS", "PEG", "LH", "FICO", "LDOS", "IBM", "VRSK", "FDS", "ERIE", "PPL", "ETN", "HON", "MTD", "MKC", "GIS", "DPZ", "SMCI", "BX", "TMO", "BR", "HII", "INTU", "EXE", "MDT", "CTAS", "CME", "TDG", "QCOM", "LYB", "WRB", "ORLY", "ACN", "ROP", "APD", "EQT", "ARE", "ALLE", "GPC", "IP", "SYK", "PGR", "TRV", "SWKS"]};
+const COLORS = {"us_equity": "#46ff9a", "intl_equity": "#2fbf71", "bonds": "#6ea8fe", "long_bonds": "#3f6fd8", "gold": "#ffb000", "crypto": "#c084fc", "alpha": "#ff8fab", "cash": "#3a4048"};
+const LABELS = {"us_equity": "US equities", "intl_equity": "Intl equities", "bonds": "Bonds 7-10y", "long_bonds": "Long bonds 20y+", "gold": "Gold", "crypto": "Bitcoin", "alpha": "Vig alpha sleeve", "cash": "Cash / T-bills"};
+let profile = "balanced";
+
+const fmt$ = x => "$" + Math.round(x).toLocaleString("en-US");
+const pct = x => (100 * x).toFixed(1) + "%";
+
+function capital() {
+  const raw = document.getElementById("cap").value.replace(/[^0-9.]/g, "");
+  return Math.max(0, parseFloat(raw) || 0);
+}
+
+function render() {
+  const p = DATA.profiles[profile];
+  const cap = capital();
+  document.querySelectorAll(".seg button").forEach(b =>
+    b.classList.toggle("on", b.dataset.p === profile));
+
+  const parts = Object.entries(p.weights).map(([k, w]) => [k, w]);
+  if (p.alpha_w > 0) parts.push(["alpha", p.alpha_w]);
+  if (p.cash_w > 0.001) parts.push(["cash", p.cash_w]);
+
+  document.getElementById("bar").innerHTML = parts.map(([k, w]) =>
+    `<div style="width:${100 * w}%;background:${COLORS[k]}" title="${LABELS[k]} ${pct(w)}"></div>`).join("");
+  document.getElementById("legend").innerHTML = parts.map(([k, w]) =>
+    `<span><i style="background:${COLORS[k]}"></i>${LABELS[k]} ${pct(w)}</span>`).join("");
+
+  document.getElementById("rows").innerHTML = parts.map(([k, w]) => {
+    const vehicle = k === "cash" ? "SGOV / cash" :
+                    k === "alpha" ? `${DATA.alpha_names.length} single names below` :
+                    DATA.sleeve_etfs[k];
+    return `<tr><td><b>${LABELS[k]}</b></td><td class="muted tl">${vehicle}</td>
+      <td>${pct(w)}</td><td><b>${fmt$(cap * w)}</b></td></tr>`;
+  }).join("");
+
+  const var95d = 1.645 * p.est_vol / Math.sqrt(252) * cap;
+  const var95m = 1.645 * p.est_vol / Math.sqrt(12) * cap;
+  const stats = [
+    ["Target vol", pct(p.est_vol) + "/yr"],
+    ["Hist. CAGR (2004-now, this mix)", pct(p.hist_cagr) + "/yr"],
+    ["Worst drawdown (incl. 2008)", pct(p.hist_max_dd)],
+    ["Worst year", `${p.worst_year.year}: ${pct(p.worst_year.ret)}`],
+    ["VaR 95% (parametric)", `${fmt$(var95d)} / day · ${fmt$(var95m)} / month`],
+    ["Expected on your capital", `${fmt$(cap * p.hist_cagr)} avg/yr · swing of ${fmt$(Math.abs(cap * p.hist_max_dd))} at the historical worst`],
+  ];
+  document.getElementById("stats").innerHTML = stats.map(([k, v]) =>
+    `<div class="htile"><div class="hlabel">${k}</div><div class="hval">${v}</div></div>`).join("");
+
+  document.getElementById("ddrows").innerHTML = (p.top_dd || []).map(d =>
+    `<tr><td class="neg">${pct(d.depth)}</td><td class="muted tl">${d.peak}</td>
+     <td class="muted tl">${d.trough}</td><td class="tl">${d.recovered}</td>
+     <td>${fmt$(Math.abs(cap * d.depth))}</td></tr>`).join("");
+
+  const an = document.getElementById("alpharows");
+  if (p.alpha_w > 0 && DATA.alpha_names.length) {
+    const per = cap * p.alpha_w / DATA.alpha_names.length;
+    an.innerHTML = DATA.alpha_names.map(a =>
+      `<tr><td><b>${a.ticker}</b></td><td>${a.prob.toFixed(3)}</td>
+       <td>${fmt$(a.last)}</td><td><b>${fmt$(per)}</b></td>
+       <td>${per >= a.last ? Math.floor(per / a.last) + " sh" : "&lt;1 sh (fractional)"}</td></tr>`).join("");
+    document.getElementById("alphasec").style.display = "";
+  } else {
+    document.getElementById("alphasec").style.display = "none";
+  }
+}
+
+/* ── MY BOOK: holdings tracker + rebalance recommendations ───────── */
+const ETF_MAP = { SPY: "us_equity", VOO: "us_equity", IVV: "us_equity",
+  VTI: "us_equity", QQQ: "us_equity", VXUS: "intl_equity", VEA: "intl_equity",
+  EFA: "intl_equity", IEFA: "intl_equity", IEF: "bonds", AGG: "bonds",
+  BND: "bonds", TLT: "long_bonds", VGLT: "long_bonds", GLD: "gold",
+  IAU: "gold", IBIT: "crypto", FBTC: "crypto", "BTC-USD": "crypto",
+  SGOV: "cash", BIL: "cash" };
+const SLEEVE_LBL = { us_equity: "US equities", intl_equity: "Intl equities",
+  bonds: "Bonds", long_bonds: "Long bonds", gold: "Gold", crypto: "Crypto",
+  cash: "Cash" };
+
+let book = JSON.parse(localStorage.getItem("vig_holdings") || "[]");
+const saveBook = () => localStorage.setItem("vig_holdings", JSON.stringify(book));
+
+function classify(t) {
+  if (ETF_MAP[t]) return { sleeve: ETF_MAP[t], sector: "ETF",
+                           last: null, etf: true };
+  const m = DATA.ticker_meta[t];
+  if (m) return { sleeve: "us_equity", sector: m.sector, last: m.last, etf: false };
+  return null;
+}
+
+function modelView(t) {
+  if (DATA.short_decile.includes(t))
+    return ['<span class="neg">SHORT decile — model ranks it bottom 10%</span>', "flag"];
+  if (DATA.long_decile.includes(t))
+    return ['<span class="pos">LONG decile</span>', "good"];
+  if (DATA.ticker_meta[t]) return ['<span class="muted">mid-book</span>', ""];
+  return ['<span class="muted">not covered</span>', ""];
+}
+
+function renderTracker() {
+  const rows = [];
+  let total = 0, pnlTotal = 0, basisTotal = 0;
+  const sleeves = {}, sectors = {}, positions = [];
+  for (const h of book) {
+    const c = classify(h.t);
+    const last = c ? (c.last ?? h.basis ?? null) : null;  // ETFs: no embedded px
+    const value = last != null ? h.sh * last : null;
+    if (value != null && c) {
+      total += value;
+      sleeves[c.sleeve] = (sleeves[c.sleeve] || 0) + value;
+      if (!c.etf) sectors[c.sector] = (sectors[c.sector] || 0) + value;
+      positions.push({ t: h.t, value });
+      if (h.basis) { pnlTotal += (last - h.basis) * h.sh; basisTotal += h.basis * h.sh; }
+    }
+    rows.push({ h, c, last, value });
+  }
+
+  document.getElementById("tk-rows").innerHTML = rows.map((r, i) => {
+    const c = r.c;
+    const sleeve = c ? `${SLEEVE_LBL[c.sleeve]} <span class="muted">${c.sector}</span>`
+                     : '<span class="neg">unknown ticker</span>';
+    const pnl = (r.h.basis && r.last != null)
+      ? `<span class="${r.last >= r.h.basis ? "pos" : "neg"}">` +
+        `${(100 * (r.last / r.h.basis - 1)).toFixed(1)}%</span>` : "—";
+    const note = c && c.etf && r.last == null
+      ? ' <span class="muted">(enter basis to price ETFs)</span>' : "";
+    const [mv] = modelView(r.h.t);
+    return `<tr><td><b>${r.h.t}</b></td><td class="tl">${sleeve}${note}</td>
+      <td>${r.h.sh}</td><td>${r.last != null ? fmt$(r.last) : "—"}</td>
+      <td>${r.value != null ? fmt$(r.value) : "—"}</td>
+      <td>${r.value != null && total ? pct(r.value / total) : "—"}</td>
+      <td>${pnl}</td><td class="tl">${mv}</td>
+      <td><span class="tk-x" data-i="${i}">✕</span></td></tr>`;
+  }).join("");
+  document.querySelectorAll(".tk-x").forEach(x =>
+    x.addEventListener("click", () => { book.splice(+x.dataset.i, 1);
+      saveBook(); renderTracker(); }));
+
+  const biggest = positions.sort((a, b) => b.value - a.value)[0];
+  document.getElementById("tk-tiles").innerHTML = total ? [
+    ["Book value (priced positions)", fmt$(total)],
+    ["Unrealized P&L (where basis given)",
+     basisTotal ? `<span class="${pnlTotal >= 0 ? "pos" : "neg"}">${fmt$(pnlTotal)}` +
+       ` (${(100 * pnlTotal / basisTotal).toFixed(1)}%)</span>` : "—"],
+    ["Largest position", biggest ? `${biggest.t} · ${pct(biggest.value / total)}` : "—"],
+  ].map(([k, v]) =>
+    `<div class="htile"><div class="hlabel">${k}</div><div class="hval">${v}</div></div>`
+  ).join("") : "";
+
+  // ── recommendations vs the selected profile ──
+  const recs = [];
+  const p = DATA.profiles[profile];
+  if (total > 0) {
+    // target sleeves: profile weights, alpha counted as US equity,
+    // renormalized to the invested (non-cash) book we can actually see
+    const tgt = { ...p.weights };
+    tgt.us_equity = (tgt.us_equity || 0) + p.alpha_w;
+    const investedT = Object.values(tgt).reduce((a, b) => a + b, 0);
+    for (const k of Object.keys(tgt)) tgt[k] /= investedT;
+    const gaps = [];
+    const allSleeves = new Set([...Object.keys(tgt), ...Object.keys(sleeves)]);
+    for (const s of allSleeves) {
+      if (s === "cash") continue;
+      const cur = (sleeves[s] || 0) / total;
+      const gap = (tgt[s] || 0) - cur;
+      if (Math.abs(gap) >= 0.03) gaps.push({ s, gap, d: gap * total });
+    }
+    gaps.sort((a, b) => Math.abs(b.d) - Math.abs(a.d));
+    for (const g of gaps.slice(0, 4)) {
+      const etf = DATA.sleeve_etfs[g.s] || "";
+      recs.push([g.gap > 0
+        ? `<b>Add ~${fmt$(g.d)}</b> to ${SLEEVE_LBL[g.s]}${etf ? ` (${etf})` : ""} — ` +
+          `you hold ${pct((sleeves[g.s] || 0) / total)} vs ${pct(tgt[g.s] || 0)} target ` +
+          `for the <b>${profile}</b> profile`
+        : `<b>Trim ~${fmt$(-g.d)}</b> from ${SLEEVE_LBL[g.s]} — ` +
+          `${pct((sleeves[g.s] || 0) / total)} held vs ${pct(tgt[g.s] || 0)} target ` +
+          `(or just direct new money elsewhere — fewer taxable events)`, ""]);
+    }
+    if (biggest && biggest.value / total > 0.15)
+      recs.push([`<b>${biggest.t} is ${pct(biggest.value / total)} of your book.</b> ` +
+        `Single-name risk dwarfs any model edge — the backtests here assume ` +
+        `50-name diversification. Consider capping single positions near 10%.`, "flag"]);
+    for (const [sec, v] of Object.entries(sectors))
+      if (v / total > 0.30)
+        recs.push([`<b>${pct(v / total)} in ${sec}.</b> Sector concentration — ` +
+          `one macro story moves most of your book.`, "flag"]);
+    for (const h of book) {
+      const [, cls] = modelView(h.t);
+      if (cls === "flag")
+        recs.push([`<b>${h.t} sits in Vig's SHORT decile (1W model).</b> Not a ` +
+          `sell order — the edge is thin — but the model would not be long it ` +
+          `this week.`, "flag"]);
+    }
+    if (!recs.length)
+      recs.push(["Book is within 3pp of the selected profile on every sleeve, " +
+        "no concentration flags. Nothing to do — which is usually the right trade.",
+        "good"]);
+  } else {
+    recs.push(["Add positions above (or paste a JSON book) and Vig will " +
+      "compare you against the selected profile.", ""]);
+  }
+  document.getElementById("tk-recs").innerHTML =
+    recs.map(([txt, cls]) => `<li class="${cls}">${txt}</li>`).join("");
+}
+
+function addPosition() {
+  const t = document.getElementById("tk-t").value.trim().toUpperCase();
+  const sh = parseFloat(document.getElementById("tk-sh").value);
+  const basis = parseFloat(document.getElementById("tk-basis").value) || null;
+  if (!t || !(sh > 0)) return;
+  book.push({ t, sh, basis });
+  saveBook();
+  ["tk-t", "tk-sh", "tk-basis"].forEach(id => document.getElementById(id).value = "");
+  renderTracker();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  // MYVIG defaults
+  try {
+    const acct = JSON.parse(localStorage.getItem("vig_account") || "{}");
+    if (acct.capital) document.getElementById("cap").value = acct.capital;
+    if (DATA.profiles[acct.profile]) profile = acct.profile;
+  } catch {}
+  document.getElementById("cap").addEventListener("input", () => render());
+  document.querySelectorAll(".seg button").forEach(b =>
+    b.addEventListener("click", () => { profile = b.dataset.p; render(); }));
+  document.getElementById("tk-add").addEventListener("click", addPosition);
+  ["tk-t", "tk-sh", "tk-basis"].forEach(id =>
+    document.getElementById(id).addEventListener("keydown",
+      e => { if (e.key === "Enter") addPosition(); }));
+  document.getElementById("tk-export").addEventListener("click", () =>
+    navigator.clipboard.writeText(JSON.stringify(book)));
+  document.getElementById("tk-import").addEventListener("click", () => {
+    const j = prompt("Paste your book JSON:");
+    if (!j) return;
+    try { book = JSON.parse(j); saveBook(); renderTracker(); }
+    catch { alert("invalid JSON"); }
+  });
+  document.getElementById("tk-clear").addEventListener("click", () => {
+    if (confirm("Clear all tracked positions?")) { book = []; saveBook(); renderTracker(); }
+  });
+  render();
+});
+
+const _renderOrig = render;
+render = function() { _renderOrig(); renderTracker(); };
+</script></div>
+<footer><span class="muted">keys: <b>⌘K</b> any ticker or command ·
+<b>1–7</b> screens · <b>/</b> search · click a ticker for its security page ·
+click any column header to sort</span><br><br>
+Research tooling output — signals from backtested models with modest,
+documented edges (weekly IC ≈ 0.017; see RESEARCH_NOTES.md). Probabilities are
+calibrated conviction, not certainty. Not investment advice.</footer>
+<script src="instruments.js"></script>
+
+<script>
+(() => {
+const INST = window.VIG_INSTRUMENTS || {};
+const KEYS = Object.keys(INST);
+const CMDS = [
+  { n: "01 DESK", m: "screen", go: () => location.href = "index.html" },
+  { n: "02 ANALYSIS", m: "screen", go: () => location.href = "analysis.html" },
+  { n: "03 SCREENER", m: "screen", go: () => location.href = "screener.html" },
+  { n: "04 PAST TRADES", m: "screen", go: () => location.href = "past_trades.html" },
+  { n: "05 PORTFOLIO", m: "screen", go: () => location.href = "portfolio.html" },
+  { n: "06 RESEARCH", m: "screen", go: () => location.href = "research.html" },
+  { n: "07 PREDMKT", m: "screen", go: () => location.href = "desk.html" },
+  ...["1D", "1W", "3M", "6M", "2Y"].map(h => ({
+    n: "HORIZON " + h, m: "setting",
+    go: () => { localStorage.setItem("vig_hz", h); location.href = "index.html"; } })),
+];
+const getWatch = () => JSON.parse(localStorage.getItem("vig_watchlist") || "[]");
+const setWatch = w => localStorage.setItem("vig_watchlist", JSON.stringify(w));
+const $ = id => document.getElementById(id);
+const pct = x => (x >= 0 ? "+" : "") + (100 * x).toFixed(1) + "%";
+const cls = x => x >= 0 ? "pos" : "neg";
+
+function chart(px, w = 850, h = 230) {
+  if (!px || px.length < 2) return "";
+  const lo = Math.min(...px), hi = Math.max(...px), rng = (hi - lo) || 1;
+  const pts = px.map((v, i) =>
+    `${(i * w / (px.length - 1)).toFixed(1)},${(h - 8 - (v - lo) / rng * (h - 16)).toFixed(1)}`
+  ).join(" ");
+  const color = px[px.length - 1] >= px[0] ? "#46ff9a" : "#ff5d5d";
+  return `<svg width="100%" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none"
+    style="border:1px solid #22262c;background:#0b0d10">
+    <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.6"/>
+    <text x="6" y="14" fill="#6d747c" font-size="11">${hi.toLocaleString()}</text>
+    <text x="6" y="${h - 6}" fill="#6d747c" font-size="11">${lo.toLocaleString()}</text>
+  </svg>`;
+}
+
+function openInst(t) {
+  const d = INST[t];
+  if (!d) return;
+  closePalette();
+  let html = `<div id="vi-head"><div><div id="vi-tick">${t}</div>
+    <div id="vi-sub">${d.c} · ${d.k === "stock" ? "S&P 500 universe" : "trend universe"} · 1y daily</div></div>
+    <div style="text-align:right"><div id="vi-last">${d.l.toLocaleString()}</div>
+    <div class="${cls(d.r1 ?? 0)}">${d.r1 != null ? pct(d.r1) + " today" : ""}</div></div>
+    <span id="vi-watch" style="cursor:pointer;color:#ffb000;font-size:12px;
+      letter-spacing:1px;border:1px solid #2a2e35;padding:5px 10px"></span>
+    <span id="vi-close">✕</span></div>
+    ${chart(d.px)}
+    <div class="vi-chips">
+      ${d.r21 != null ? `<span class="vi-chip">1m <b class="${cls(d.r21)}">${pct(d.r21)}</b></span>` : ""}
+      ${d.r252 != null ? `<span class="vi-chip">12m <b class="${cls(d.r252)}">${pct(d.r252)}</b></span>` : ""}
+      ${d.tp != null ? `<span class="vi-chip">trend book <b class="${cls(d.tp)}">${d.tp > 0 ? "LONG" : d.tp < 0 ? "SHORT" : "FLAT"} ${Math.abs(d.tp)}x</b></span>` : ""}
+    </div>`;
+  if (d.h && Object.keys(d.h).length) {
+    html += `<div class="vi-sect">Model view by horizon — P(outperform S&P median)</div><div class="vi-chips">` +
+      Object.entries(d.h).map(([k, p]) => {
+        const side = (d.hd || {})[k];
+        const badge = side === "L" ? ' <b class="pos">LONG BOOK</b>'
+                    : side === "S" ? ' <b class="neg">SHORT BOOK</b>' : "";
+        return `<span class="vi-chip">${k} <b>${p.toFixed(3)}</b>${badge}</span>`;
+      }).join("") + `</div>
+      <div class="edgemath">probabilities near 0.55 are the honest size of this
+      edge (weekly IC ≈ 0.017) — conviction, not certainty.</div>`;
+  }
+  if (d.b) {
+    const g = d.b.gold == null ? "—" : (d.b.gold ? "GOLDEN" : "DEATH");
+    html += `<div class="vi-sect">Technicals (tactical board)</div><div class="vi-chips">
+      <span class="vi-chip">RSI14 <b>${d.b.rsi}</b></span>
+      <span class="vi-chip">%B <b>${d.b.pctb}</b></span>
+      <span class="vi-chip">MACD <b>${d.b.macd} bps</b></span>
+      <span class="vi-chip">50/200 <b>${g}</b></span>
+      ${d.b.vwap != null ? `<span class="vi-chip">vs VWAP20 <b class="${cls(d.b.vwap)}">${pct(d.b.vwap)}</b></span>` : ""}
+      <span class="vi-chip">consensus <b class="${d.b.cons >= 3 ? "pos" : d.b.cons <= -3 ? "neg" : "muted"}">${d.b.cons >= 0 ? "+" : ""}${d.b.cons}</b></span>
+    </div>`;
+  }
+  $("vi-card").innerHTML = html;
+  $("vi-scrim").classList.add("open");
+  $("vi-card").style.display = "";
+  $("vi-close").addEventListener("click", closeInst);
+  const wb = $("vi-watch");
+  const paint = () => wb.textContent =
+    getWatch().includes(t) ? "★ WATCHING" : "☆ WATCH";
+  paint();
+  wb.addEventListener("click", () => {
+    const w = getWatch();
+    setWatch(w.includes(t) ? w.filter(x => x !== t) : [...w, t]);
+    paint(); renderWatch();
+  });
+}
+
+function renderWatch() {
+  const el = $("vig-watch");
+  if (!el) return;
+  const wl = getWatch().filter(t => INST[t]);
+  if (!wl.length) {
+    el.innerHTML = '<p class="muted" style="font-size:12px">nothing starred ' +
+      'yet — open any instrument (⌘K or click a ticker) and hit ☆ WATCH</p>';
+    return;
+  }
+  el.innerHTML = '<table><tr><th>Ticker</th><th class="tl">Name</th>' +
+    '<th>Last</th><th>1d</th><th>1m</th><th>12m</th><th>P 1W</th></tr>' +
+    wl.map(t => {
+      const d = INST[t], p = (d.h || {})["1W"];
+      const cells = ["r1", "r21", "r252"].map(k =>
+        `<td class="${(d[k] ?? 0) >= 0 ? "pos" : "neg"}">` +
+        `${d[k] != null ? pct(d[k]) : "—"}</td>`).join("");
+      return `<tr data-search="${t}"><td><b>${t}</b></td>` +
+        `<td class="tl muted">${d.n || d.c}</td>` +
+        `<td>${d.l.toLocaleString()}</td>${cells}` +
+        `<td class="${p > 0.5 ? "pos" : "neg"}">${p?.toFixed(3) ?? "—"}</td></tr>`;
+    }).join("") + "</table>";
+}
+function closeInst() {
+  $("vi-scrim").classList.remove("open");
+  $("vi-card").style.display = "none";
+}
+
+function matches(q) {
+  q = q.trim().toUpperCase();
+  if (!q) {
+    const wl = getWatch().filter(t => INST[t]).map(t => ({
+      label: "★ " + t, meta: INST[t].n || INST[t].c, go: () => openInst(t) }));
+    return [...wl.slice(0, 5),
+            ...CMDS.slice(0, 5).map(c => ({ label: c.n, meta: c.m, go: c.go }))]
+           .slice(0, 9);
+  }
+  // rank: ticker prefix > name prefix > any substring (ticker/name/sector)
+  const scored = [];
+  for (const t of KEYS) {
+    const d = INST[t], name = (d.n || "").toUpperCase();
+    let s = -1;
+    if (t.toUpperCase().startsWith(q)) s = 0;
+    else if (name.startsWith(q)) s = 1;
+    else if (t.toUpperCase().includes(q) || name.includes(q)
+             || (d.c || "").toUpperCase().includes(q)) s = 2;
+    if (s >= 0) scored.push([s, t]);
+  }
+  scored.sort((a, b) => a[0] - b[0] || a[1].localeCompare(b[1]));
+  const out = scored.slice(0, 7).map(([, t]) => ({
+    label: t, meta: [INST[t].n, INST[t].c].filter(Boolean).join(" · "),
+    go: () => openInst(t) }));
+  for (const c of CMDS)
+    if (c.n.toUpperCase().includes(q)) out.push({ label: c.n, meta: c.m, go: c.go });
+  return out.slice(0, 9);
+}
+
+let sel = 0;
+function renderList() {
+  const rows = matches($("vp-in").value);
+  sel = Math.min(sel, Math.max(0, rows.length - 1));
+  $("vp-list").innerHTML = rows.map((r, i) =>
+    `<div class="vp-row${i === sel ? " sel" : ""}" data-i="${i}">
+     <span>${r.label}</span><span class="m">${r.meta}</span></div>`).join("");
+  document.querySelectorAll(".vp-row").forEach(el =>
+    el.addEventListener("click", () => rows[+el.dataset.i].go()));
+  $("vp-list")._rows = rows;
+}
+function openPalette() {
+  $("vp-scrim").classList.add("open");
+  $("vp-box").style.display = "";
+  $("vp-in").value = ""; sel = 0; renderList();
+  $("vp-in").focus();
+}
+function closePalette() {
+  $("vp-scrim").classList.remove("open");
+  $("vp-box").style.display = "none";
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const wrap = document.createElement("div");
+  wrap.innerHTML = `<div id="vp-scrim"></div>
+    <div id="vp-box" style="display:none">
+      <input id="vp-in" placeholder="ticker or command… (esc to close)">
+      <div id="vp-list"></div></div>
+    <div id="vi-scrim"></div><div id="vi-card" style="display:none"></div>`;
+  document.body.appendChild(wrap);
+  $("vp-in").addEventListener("input", () => { sel = 0; renderList(); });
+  $("vp-in").addEventListener("keydown", e => {
+    const rows = $("vp-list")._rows || [];
+    if (e.key === "ArrowDown") { sel = Math.min(sel + 1, rows.length - 1); renderList(); e.preventDefault(); }
+    if (e.key === "ArrowUp") { sel = Math.max(sel - 1, 0); renderList(); e.preventDefault(); }
+    if (e.key === "Enter" && rows[sel]) rows[sel].go();
+  });
+  $("vp-scrim").addEventListener("click", closePalette);
+  $("vi-scrim").addEventListener("click", closeInst);
+
+  renderWatch();
+  document.addEventListener("keydown", e => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+      e.preventDefault(); openPalette(); return;
+    }
+    if (e.key === "Escape") { closePalette(); closeInst(); }
+  });
+  // any bold ticker anywhere becomes a security link
+  document.addEventListener("click", e => {
+    const b = e.target.closest("b");
+    if (b && INST[b.textContent.trim()]) openInst(b.textContent.trim());
+  });
+});
+})();
+</script>
+
+<script>
+(() => {
+const $ = id => document.getElementById(id);
+const load = () => JSON.parse(localStorage.getItem("vig_account") || "{}");
+
+document.addEventListener("DOMContentLoaded", () => {
+  const dateBox = document.querySelector(".stamp-date");
+  if (dateBox) dateBox.insertAdjacentHTML("beforeend",
+    '<br><span id="va-btn">◈ MYVIG</span>');
+  document.body.insertAdjacentHTML("beforeend", `
+<div id="va-panel">
+  <h3>MYVIG</h3><div class="s">your desk identity — stored only in this browser</div>
+  <div class="va-field"><label>Callsign</label>
+    <input id="va-name" placeholder="how the desk greets you"></div>
+  <div class="va-field"><label>Default capital (USD)</label>
+    <input id="va-cap" inputmode="decimal" placeholder="10,000"></div>
+  <div class="va-field"><label>Default risk profile</label>
+    <select id="va-prof"><option value="">—</option>
+    <option>conservative</option><option>balanced</option><option>aggressive</option></select></div>
+  <div class="va-field"><label>Default horizon</label>
+    <select id="va-hz"><option value="">—</option><option>1D</option>
+    <option>1W</option><option>3M</option><option>6M</option><option>2Y</option></select></div>
+  <div class="va-field"><label>Tiingo API key (optional — upgrades the data cross-check)</label>
+    <input id="va-tiingo" type="password" placeholder="free at tiingo.com"></div>
+  <div class="va-row">
+    <span class="primary" id="va-save">SAVE</span>
+    <span id="va-export">EXPORT ALL</span>
+    <span id="va-backup">BACKUP &#8595;</span>
+    <span id="va-import">IMPORT</span>
+    <span id="va-close2">CLOSE</span>
+  </div>
+  <div class="va-note">EXPORT ALL copies your entire desk state (account,
+  holdings, watchlist, journal, horizon — including your Tiingo key, so
+  treat the JSON like a password) — paste it into Vig on any machine.
+  BACKUP downloads the same JSON as a dated file; IMPORT restores either.
+  Pipeline note: the daily refresh reads TIINGO_API_KEY from the
+  environment — after saving here, also run once in Terminal:<br>
+  <code>launchctl setenv TIINGO_API_KEY &lt;your key&gt;</code></div>
+</div>`);
+
+  const acct = load();
+  $("va-name").value = acct.callsign || "";
+  $("va-cap").value = acct.capital || "";
+  $("va-prof").value = acct.profile || "";
+  $("va-hz").value = acct.horizon || "";
+  $("va-tiingo").value = acct.tiingo || "";
+  if (acct.callsign) {
+    const b = document.querySelector(".tagline b");
+    if (b) b.textContent = acct.callsign + "'s systematic desk";
+  }
+
+  $("va-btn").addEventListener("click", () => $("va-panel").classList.toggle("open"));
+  $("va-close2").addEventListener("click", () => $("va-panel").classList.remove("open"));
+  $("va-save").addEventListener("click", () => {
+    const a = { callsign: $("va-name").value.trim(),
+                capital: $("va-cap").value.trim(),
+                profile: $("va-prof").value,
+                horizon: $("va-hz").value,
+                tiingo: $("va-tiingo").value.trim() };
+    localStorage.setItem("vig_account", JSON.stringify(a));
+    if (a.horizon) localStorage.setItem("vig_hz", a.horizon);
+    location.reload();
+  });
+  const deskState = () => JSON.stringify({
+    account: load(),
+    holdings: JSON.parse(localStorage.getItem("vig_holdings") || "[]"),
+    watchlist: JSON.parse(localStorage.getItem("vig_watchlist") || "[]"),
+    journal: JSON.parse(localStorage.getItem("vig_journal") || "[]"),
+    hz: localStorage.getItem("vig_hz") || "1W",
+  });
+  $("va-export").addEventListener("click", () => {
+    navigator.clipboard.writeText(deskState()).then(
+      () => { $("va-export").textContent = "COPIED ✓";
+              setTimeout(() => $("va-export").textContent = "EXPORT ALL", 1500); },
+      () => alert("clipboard blocked — use BACKUP instead"));
+  });
+  $("va-backup").addEventListener("click", () => {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([deskState()],
+                                          { type: "application/json" }));
+    a.download = "vig_backup_" + new Date().toISOString().slice(0, 10) + ".json";
+    a.click();
+    // Safari aborts the download if the URL is revoked synchronously
+    setTimeout(() => URL.revokeObjectURL(a.href), 10000);
+  });
+  $("va-import").addEventListener("click", () => {
+    const j = prompt("Paste your Vig desk JSON:");
+    if (!j) return;
+    try {
+      const d = JSON.parse(j);
+      if (d.account) localStorage.setItem("vig_account", JSON.stringify(d.account));
+      if (d.holdings) localStorage.setItem("vig_holdings", JSON.stringify(d.holdings));
+      if (d.watchlist) localStorage.setItem("vig_watchlist", JSON.stringify(d.watchlist));
+      if (d.journal) localStorage.setItem("vig_journal", JSON.stringify(d.journal));
+      if (d.hz) localStorage.setItem("vig_hz", d.hz);
+      location.reload();
+    } catch { alert("invalid JSON"); }
+  });
+});
+})();
+</script>
+
+<script>
+(() => {
+  const pages = { "1": "index.html", "2": "analysis.html",
+                  "3": "screener.html", "4": "past_trades.html",
+                  "5": "portfolio.html", "6": "research.html",
+                  "7": "desk.html" };
+  document.addEventListener("keydown", e => {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    if (e.target instanceof Element && e.target.matches("input,textarea")) return;
+    if (pages[e.key]) location.href = pages[e.key];
+    if (e.key === "/") {
+      const q = document.getElementById("fb-q");
+      if (q) { e.preventDefault(); q.focus(); }
+    }
+  });
+
+  const setTabsH = () => {
+    const t = document.querySelector(".tabs");
+    if (t) document.documentElement.style.setProperty("--tabs-h", t.offsetHeight + "px");
+  };
+  window.addEventListener("resize", setTabsH);
+  document.addEventListener("DOMContentLoaded", setTabsH);
+
+  const num = s => {
+    const v = parseFloat(s.replace(/[▮$,]/g, "").replace(/(bps|wks|sh|OB|OS|pp|[%x+])/g, ""));
+    return isNaN(v) ? null : v;
+  };
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll("table").forEach(tb => {
+      const headers = [...tb.querySelectorAll("th")];
+      headers.forEach((th, i) => th.addEventListener("click", () => {
+        const desc = th.dataset.dir !== "desc";
+        headers.forEach(h => delete h.dataset.dir);
+        th.dataset.dir = desc ? "desc" : "asc";
+        const rows = [...tb.querySelectorAll("tr")].filter(r => r.querySelector("td"));
+        rows.sort((a, b) => {
+          const x = (a.cells[i]?.innerText ?? "").trim();
+          const y = (b.cells[i]?.innerText ?? "").trim();
+          const nx = num(x), ny = num(y);
+          const c = (nx !== null && ny !== null) ? nx - ny : x.localeCompare(y);
+          return desc ? -c : c;
+        });
+        rows.forEach(r => r.parentNode.appendChild(r));
+      }));
+    });
+  });
+})();
+</script>
+</body></html>
