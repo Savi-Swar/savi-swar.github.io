@@ -241,7 +241,7 @@
               <h3>nanoserve</h3>
               <span class="work__tag">LLM Inference Server</span>
             </div>
-            <p>A from-scratch LLM inference server, no custom CUDA — the interesting part is the scheduler. I
+            <p>A from-scratch LLM inference server, no custom CUDA, and the interesting part is the scheduler. I
               built the batching ladder from a naive loop up through continuous batching and a paged KV cache,
               for <strong>9.6× the throughput</strong> at a fraction of the latency, reaching 16% of vLLM on the
               same GPU. Then I turned it on published optimizations as an audit: every engine is checked
