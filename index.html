@@ -4,19 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Savitur Swarup</title>
-  <meta name="description" content="Savitur Swarup. CS and Finance at Penn. I like building things, usually somewhere between machine learning, markets, and the brain." />
+  <meta name="description" content="Savitur Swarup. CS and finance at Penn. I build software systems, market-research infrastructure, and EEG models, then spend twice as long trying to prove my own results wrong." />
 
-  <!-- Open Graph / social -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://saviturswarup.com/" />
   <meta property="og:title" content="Savitur Swarup" />
-  <meta property="og:description" content="I like building things, usually somewhere between machine learning, markets, and the brain." />
+  <meta property="og:description" content="CS and finance at Penn. I build things, then try to prove my own results wrong." />
   <meta property="og:image" content="https://saviturswarup.com/assets/og.png" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
+  <meta property="og:image:width" content="800" />
+  <meta property="og:image:height" content="420" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Savitur Swarup" />
-  <meta name="twitter:description" content="I like building things, usually somewhere between machine learning, markets, and the brain." />
+  <meta name="twitter:description" content="CS and finance at Penn. I build things, then try to prove my own results wrong." />
   <meta name="twitter:image" content="https://saviturswarup.com/assets/og.png" />
 
   <link rel="icon" href="/favicon.ico" sizes="any" />
@@ -26,383 +25,246 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="grain" aria-hidden="true"></div>
-  <div class="aura" aria-hidden="true"></div>
-  <div class="cursor-glow" aria-hidden="true"></div>
-  <div class="scroll-prog" id="scrollProg" aria-hidden="true"></div>
+<main>
 
-  <!-- NAV -->
-  <header class="nav" id="nav">
-    <a href="#top" class="nav__mark">S<span>·</span>S</a>
-    <nav class="nav__links">
-      <a href="#about" data-spy="about">About</a>
-      <a href="#experience" data-spy="experience">Experience</a>
-      <a href="#research" data-spy="research">Research</a>
-      <a href="#projects" data-spy="projects">Projects</a>
-      <a href="#skills" data-spy="skills">Toolkit</a>
-      <a href="#contact" data-spy="contact">Contact</a>
-    </nav>
-    <a href="assets/Savitur_Swarup_Resume.pdf" target="_blank" rel="noopener" class="nav__resume">Résumé ↗</a>
+  <header class="masthead">
+    <div class="masthead__text">
+      <h1>Savitur Swarup</h1>
+      <p class="tagline">i like to build things.</p>
+      <p class="contact">
+        <a href="mailto:saviswa@seas.upenn.edu">saviswa@seas.upenn.edu</a>
+        <span>·</span> <a href="https://github.com/savi-swar">github</a>
+        <span>·</span> <a href="https://linkedin.com/in/savitur-swarup">linkedin</a>
+        <span>·</span> <a href="#resume">resume&nbsp;(pdf)</a>
+      </p>
+    </div>
+    <figure class="photo">
+      <img class="headshot" src="assets/headshot.jpg" alt="Savitur Swarup" width="112" height="112" />
+    </figure>
   </header>
 
-  <main id="top">
+  <div class="trace" aria-hidden="true">
+    <svg viewBox="0 0 1200 80" preserveAspectRatio="none">
+      <path d="M0,40 L120,40 L138,40 L150,16 L162,62 L174,40 L300,40 L318,40 L330,26 L342,54 L354,40 L470,40 L484,40 L496,10 L508,68 L520,32 L532,44 L544,40 L680,40 L700,40 L712,22 L724,58 L736,40 L860,40 L878,40 L890,14 L902,64 L914,38 L926,42 L938,40 L1070,40 L1088,40 L1100,28 L1112,52 L1124,40 L1200,40" />
+    </svg>
+  </div>
 
-    <!-- HERO -->
-    <section class="hero">
-      <div class="hero__inner">
-        <p class="eyebrow reveal">Philadelphia · Singapore · Jülich</p>
-        <h1 class="hero__name">
-          <span class="line"><span>Savitur</span></span>
-          <span class="line"><span>Swarup</span></span>
-        </h1>
-        <p class="hero__tag reveal">i like to build things.</p>
-        <p class="hero__sub reveal">usually somewhere between machine learning, markets, and the brain.</p>
-        <div class="hero__meta reveal">
-          <span>CS &amp; Finance</span>
-          <span class="dot"></span>
-          <span>University of Pennsylvania</span>
-          <span class="dot"></span>
-          <span>Class of 2028</span>
-        </div>
-        <div class="hero__status reveal">
-          <span class="hero__status-dot"></span>
-          <span class="hero__status-txt">Open to Summer 2027 internships · Software · Machine Learning · Quant · Research</span>
-        </div>
+  <section class="intro">
+    <p>
+      I study computer science at SEAS and economics &amp; finance at Wharton (Penn, Class
+      of 2028). Right now I'm a software engineer at Tara Ventures in Singapore,
+      co-founder of Bridge AI, and recruiting for <strong>Summer 2027 software
+      internships</strong>.
+    </p>
+    <p>
+      Most of what I build sits somewhere between software systems, markets, and the
+      brain. The habit that ties it together: build the thing, then spend twice as long
+      trying to prove the result is fake. It usually half is.
+    </p>
+    <p class="now"><b>Now</b>, October 2026: classes at Penn · software engineering at
+      Tara Ventures · recruiting for Summer 2027.</p>
+  </section>
 
-        <!-- signature: live EEG trace -->
-        <div class="eeg reveal" aria-hidden="true">
-          <svg viewBox="0 0 1200 80" preserveAspectRatio="none">
-            <path class="eeg__path" d="M0,40 L120,40 L138,40 L150,16 L162,62 L174,40 L300,40 L318,40 L330,26 L342,54 L354,40 L470,40 L484,40 L496,10 L508,68 L520,32 L532,44 L544,40 L680,40 L700,40 L712,22 L724,58 L736,40 L860,40 L878,40 L890,14 L902,64 L914,38 L926,42 L938,40 L1070,40 L1088,40 L1100,28 L1112,52 L1124,40 L1200,40" />
-          </svg>
-        </div>
+  <h2 id="projects">Projects</h2>
 
-        <a href="#about" class="hero__scroll reveal" aria-label="Scroll to content">
-          <span>Scroll</span>
-          <span class="hero__scroll-line"></span>
-        </a>
+  <section class="project">
+    <h3>nanoserve <span class="meta">2026 · <a href="https://github.com/Savi-Swar/nanoserve">source</a></span></h3>
+    <p>
+      An LLM inference server from scratch in Python/PyTorch. The interesting part is the
+      scheduler, not kernels. I built the ladder from a naive loop to continuous batching
+      to a paged KV cache with a Triton attention kernel and CUDA graphs, on one GPU:
+    </p>
+<pre class="ladder">                  tok/s
+naive                24  ▌
+static batching     126  ██▌
+continuous          243  █████
+paged KV + triton   252  █████▎
++ CUDA graphs       578  ████████████
+
+p99 TTFT: 63 s (naive) → 0.57 s (final)</pre>
+    <p>
+      That's <strong>23.7&times; naive</strong> and <strong>86% of vLLM's throughput</strong>
+      on the same hardware, at lower p99
+      time-to-first-token. I also ported the scheduler to C++ and proved the port
+      equivalent by hashed replay of every scheduling decision, and sharded a 7B model
+      that doesn't fit on one GPU across two at 7.8&times; naive.
+    </p>
+    <p>
+      Then the harness became an audit: every engine is checked token-exact against the
+      baseline, and no speedup counts until it clears a measured noise floor. That rule
+      killed five of my own first-pass results before it touched anyone else's.
+      Chaos-testing cancellation under load turned up the same bug class in vLLM's V1
+      scheduler (<a href="https://github.com/vllm-project/vllm/issues/49684">#49684</a>).
+    </p>
+  </section>
+
+  <section class="project">
+    <h3>Vig <span class="meta">2025– · <a href="/vig/">live terminal</a> · <a href="https://github.com/Savi-Swar/desk">data desk</a> · <a href="https://github.com/Savi-Swar/StrategyBuilder">pipeline</a></span></h3>
+    <p>
+      My market-research platform: a data pipeline that regenerates a seven-screen
+      research terminal every day (model desk, screener, graded past calls, a live paper
+      desk on prediction markets) with no server anywhere. Everything runs on GitHub
+      Actions cron, and the repo is the database.
+    </p>
+    <figure>
+      <img src="assets/vig.jpg" alt="The Vig research terminal: model health, trailing IC, decile spread" loading="lazy" />
+      <figcaption>The terminal on a given morning. Every number regenerates daily; nothing on this page is edited by hand.</figcaption>
+    </figure>
+    <p>
+      The data layer is the part I'd show an interviewer. A 20-hour rate-limited backfill
+      is distributed across a 12-worker CI matrix, with the partitioning invariants pinned
+      by tests and an idempotent merge: <strong>74k records in 70 minutes</strong>, 12/12
+      workers green on the first run. When Python became the bottleneck I wrote a C++17
+      parallel stream-reconstruction engine: <strong>2.0M messages/sec</strong>, 8&times; the
+      Python reference, output parity-pinned against it on all 246 files. Cross-feed
+      reconciliation caught my fill model <strong>overcounting by 1,735&times;</strong>; it
+      was counting cancels as trades.
+    </p>
+    <p>
+      The research side exists to attack its own backtests: walk-forward validation, vol
+      targeting, and a point-in-time S&amp;P universe I rebuilt specifically to measure
+      survivorship bias instead of guessing at it. Most of my first edge turned out to be
+      a backtest artifact. The smaller one that survived is what runs on the terminal.
+    </p>
+  </section>
+
+
+  <section class="project">
+    <h3>EEG microstate pipeline <span class="meta">2026 · <a href="https://github.com/savi-swar/eeg-microstate-pipeline">source</a></span></h3>
+    <p>
+      From my research internship at Forschungszentrum Jülich: one preprocessing recipe
+      and one global microstate model across 8 public resting-state EEG datasets: 504
+      people, 8 clinical conditions. Alzheimer's separates from controls at
+      <strong>0.89 AUC</strong>, and the Alzheimer's-trained model transfers at 0.92 to
+      frontotemporal dementia it never saw.
+    </p>
+    <figure>
+      <img src="assets/eeg.jpg" alt="EEG microstate topographies, classes A through D, schizophrenia vs healthy controls" loading="lazy" />
+      <figcaption>The four canonical microstate maps, fit once across all eight datasets.</figcaption>
+    </figure>
+    <p>
+      The result I trust most is a negative one: a depression finding that looked real
+      until the robustness battery (age regression, 5,000-shuffle permutation tests,
+      cross-site validation, ComBat) exposed it as a spectral confound between recording
+      sites.
+    </p>
+  </section>
+
+  <section class="project">
+    <h3>Time Bank <span class="meta">2025 · <a href="https://github.com/Savi-Swar/TimeBank">source</a></span></h3>
+    <p>
+      A kids' app with its own economy: chores and routines earn minutes, parents approve
+      requests and stock a reward store. React Native and Firebase, live on the App Store
+      and Google Play.
+    </p>
+  </section>
+
+  <p class="small-projects">
+    Smaller things: <a href="https://github.com/Savi-Swar/prereg">prereg</a>, a
+    stdlib-only Python library of the measurement discipline from Vig's paper desk
+    (evidence bars, locked adjudication, self-grading forward ledgers) ·
+    <a href="https://github.com/Savi-Swar/job-applier">job-applier</a>, a Chrome
+    extension that fills out job applications for me.
+  </p>
+
+  <p class="reading">
+    If you only read two things, make it desk's
+    <a href="https://github.com/Savi-Swar/desk/blob/main/RESULTS.md">artifact ledger</a>
+    (nine edges that died under measurement, with receipts) and the instructive failures
+    in nanoserve's <a href="https://github.com/Savi-Swar/nanoserve/blob/main/docs/kernel.md">kernel
+    notes</a>. The failures are more useful than the wins.
+  </p>
+
+  <h2 id="work">Work</h2>
+
+  <section class="job">
+    <h3>Tara Ventures <span class="meta">Software Engineer · Jul 2026– · Singapore</span></h3>
+    <p>
+      Built the company's first ad-optimization pipeline: LLM-generated creative
+      A/B-tested across verticals with a bandit-clustering feedback loop, plus
+      multi-armed-bandit budget allocation that prunes underperformers on its own.
+      Ad-driven revenue went from <strong>zero to 5:1 ROAS across 30 campaigns</strong>.
+    </p>
+  </section>
+
+  <section class="job">
+    <h3>Bridge AI <span class="meta">Co-founder &amp; Software Engineer · Nov 2025–</span></h3>
+    <p>
+      An agentic system that takes real CRM actions across a 45-tool registry, at
+      <strong>87.2% tool-selection accuracy</strong> on labeled tasks. All 22 state-mutating capabilities
+      are confirm-gated or undo-backed, enforced as a load-time invariant so nobody can
+      ship a tool that skips it. The routing layer spreads calls across 7 LLM providers
+      with per-task routing, fallback chains, and per-call cost attribution; a dual-judge
+      benchmark exposed misrouted traffic, and rerouting <strong>cut per-task inference
+      cost 73%</strong> at tied quality. RAG is hybrid Postgres/pgvector, and fp16 quantization halved
+      vector storage at no measured recall cost.
+    </p>
+  </section>
+
+  <section class="job">
+    <h3>RWTH Aachen · Forschungszentrum Jülich <span class="meta">Research Intern · May–Jul 2026 · Jülich, Germany</span></h3>
+    <p>The EEG work above started here.</p>
+  </section>
+
+  <section class="job">
+    <h3>A*STAR, Centre for Frontier AI Research <span class="meta">Research Intern · Jun–Sep 2024 · Singapore</span></h3>
+    <p>
+      Benchmarked 10 LLMs across 20 datasets on multimodal sarcasm detection under
+      Prof. Cheston Tan, then fine-tuned a custom model on what the benchmark showed.
+    </p>
+  </section>
+
+  <section class="job">
+    <h3>Jiro Web Solutions <span class="meta">Founder · Jan 2023–Aug 2025 · Singapore</span></h3>
+    <p>
+      A web agency I started in high school, serving small businesses across Asia. Hired
+      and trained a team of five; we shipped 20+ production sites and mobile apps with
+      auth, Stripe payments, and Supabase/Firebase backends.
+    </p>
+  </section>
+
+  <h2 id="background">Background</h2>
+  <p>
+    Penn, Class of 2028: B.S.E. in computer science (SEAS) and B.S. in economics &amp;
+    finance (Wharton), 3.8 GPA. Before college: USACO Gold Division and American Math
+    Olympiad gold medalist. Day to day I'm in Python, TypeScript, and C++; PyTorch and
+    pandas for models, Postgres/pgvector for data, React and React Native for frontends.
+  </p>
+
+  <h2 id="contact">Contact</h2>
+  <p>
+    Hiring software engineers for Summer 2027?
+    <a href="mailto:saviswa@seas.upenn.edu">saviswa@seas.upenn.edu</a>.
+    Resume <a href="#resume">here</a>.
+  </p>
+
+  <!-- resume popup: CSS-only, opens via #resume -->
+  <div class="modal" id="resume" role="dialog" aria-label="Resume">
+    <a class="modal__bg" href="#" aria-label="Close"></a>
+    <div class="modal__box">
+      <div class="modal__bar">
+        <span>Savitur_Swarup_Resume.pdf</span>
+        <span class="modal__actions">
+          <a class="modal__btn modal__btn--primary" href="assets/Savitur_Swarup_Resume.pdf" download>Download</a>
+          <a class="modal__btn" href="assets/Savitur_Swarup_Resume.pdf" target="_blank" rel="noopener">Open in tab</a>
+          <a class="modal__btn" href="#">Close</a>
+        </span>
       </div>
-    </section>
+      <iframe class="modal__preview" src="assets/Savitur_Swarup_Resume.pdf#toolbar=0" title="Resume preview"></iframe>
+      <p class="modal__fallback">No inline preview on this screen size.
+        <a class="modal__btn modal__btn--primary" href="assets/Savitur_Swarup_Resume.pdf" download>Download the PDF</a></p>
+    </div>
+  </div>
 
-    <!-- HIGHLIGHTS: the heart, at a glance -->
-    <section class="highlights" aria-label="Highlights">
-      <div class="hl-grid reveal">
-        <a class="hl" href="#research">
-          <b>0.89 AUC</b><span>EEG Alzheimer's model</span><i class="hl-go" aria-hidden="true">↗</i>
-        </a>
-        <a class="hl" href="#experience">
-          <b>45 tools</b><span>Agentic AI CRM system</span><i class="hl-go" aria-hidden="true">↗</i>
-        </a>
-        <a class="hl" href="#experience">
-          <b>+50% ROAS</b><span>LLM-driven ad engine</span><i class="hl-go" aria-hidden="true">↗</i>
-        </a>
-        <a class="hl" href="/vig/" target="_blank" rel="noopener">
-          <b>IC +0.027</b><span>Live quant desk</span><i class="hl-go" aria-hidden="true">↗</i>
-        </a>
-      </div>
-    </section>
+  <footer>
+    <p>No JavaScript, no analytics, no build step · last updated October 2026 ·
+      © Savitur Swarup</p>
+  </footer>
 
-    <!-- ABOUT -->
-    <section class="section" id="about">
-      <div class="section__label reveal"><span>01</span> About</div>
-      <div class="about">
-        <div class="about__photo reveal">
-          <img src="assets/headshot.jpg" alt="Savitur Swarup"
-               onerror="this.closest('.about__photo').classList.add('is-empty')" />
-          <div class="about__photo-fallback">
-            <span class="about__photo-mark">S<i>·</i>S</span>
-            <span class="about__photo-cap">Savitur Swarup</span>
-          </div>
-        </div>
-        <div class="about__text">
-          <p class="reveal">
-            I'm a sophomore at Penn studying <strong>Computer Science</strong> at SEAS and
-            <strong>Economics &amp; Finance</strong> at Wharton. I like problems that sit between fields, and
-            once something grabs me I have a hard time putting it down until it actually works.
-          </p>
-          <p class="reveal">
-            Lately that's been AI agents, EEG models of the brain, and a bit of quant on the side. I'm pretty
-            relentless once I'm into something, and honestly I just really like building things that work.
-          </p>
-          <div class="about__focus reveal">
-            <span>Machine Learning</span><span>Agentic AI</span><span>Full-Stack</span><span>Computational Neuroscience</span>
-          </div>
-          <ul class="about__facts reveal">
-            <li><span>USACO</span> Gold Division</li>
-            <li><span>Math Olympiad</span> Gold · 24th intl</li>
-            <li><span>GPA</span> 3.8 / 4.0</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- EXPERIENCE -->
-    <section class="section" id="experience">
-      <div class="section__label reveal"><span>02</span> Experience</div>
-      <div class="rows">
-
-        <article class="row reveal">
-          <div class="row__meta">
-            <span class="row__time">Jun 2026 – Present</span>
-            <span class="row__place">Singapore</span>
-          </div>
-          <div class="row__body">
-            <h3>Software Engineer <span class="row__org">Tara Ventures</span></h3>
-            <p>Built an ad-optimization pipeline (Python, Meta and Google Ads APIs) that generates LLM media
-              and A/B tests it across products. Added multi-armed bandit budget allocation that drops
-              underperformers on its own, for a projected <strong>50% lift</strong> in ROAS, inside a loop
-              that feeds results back into the next round of creative.</p>
-          </div>
-        </article>
-
-        <article class="row reveal">
-          <div class="row__meta">
-            <span class="row__time">Nov 2025 – Present</span>
-            <span class="row__place">Philadelphia, PA</span>
-          </div>
-          <div class="row__body">
-            <h3>Co-Founder &amp; Software Engineer <span class="row__org">Bridge AI</span></h3>
-            <p>Building an agentic AI system with a <strong>45-tool registry</strong> that takes real CRM
-              actions like creating deals, moving pipeline stages, and drafting follow-ups, all behind
-              confirmation gates, snapshot undo, and trust-gating for anything destructive. Also built the
-              RAG layer on Postgres/pgvector and a routing layer across <strong>7 LLM providers</strong> with
-              fallbacks, consensus voting, and per-call cost tracking.</p>
-          </div>
-        </article>
-
-        <article class="row reveal">
-          <div class="row__meta">
-            <span class="row__time">Jan 2023 – Aug 2025</span>
-            <span class="row__place">Asia</span>
-          </div>
-          <div class="row__body">
-            <h3>Founder / CEO <span class="row__org">Jiro Web Solutions</span></h3>
-            <p>Started a freelance web dev agency serving small businesses across Asia, hired and trained a
-              team of five, and shipped <strong>20+ production sites and apps</strong> with auth, Stripe, and
-              Firebase/Supabase in React, React Native, and Vue.</p>
-          </div>
-        </article>
-
-      </div>
-    </section>
-
-    <!-- RESEARCH -->
-    <section class="section" id="research">
-      <div class="section__label reveal"><span>03</span> Research</div>
-      <div class="rows">
-
-        <article class="row reveal">
-          <div class="row__meta">
-            <span class="row__time">May 2026 – Jul 2026</span>
-            <span class="row__place">Jülich, Germany</span>
-          </div>
-          <div class="row__body">
-            <h3>Research Intern <span class="row__org">RWTH Aachen · Forschungszentrum Jülich</span></h3>
-            <p>Built one EEG pipeline (Python, MNE) across <strong>8 datasets, 504 people, and 8 clinical
-              conditions</strong>. Fit a single microstate model, pulled 24 features per person, and showed
-              the features separate neurodegenerative disease from controls, with an Alzheimer's model that
-              transfers to unseen FTD. Ran the paranoid checks too: age regression, 5,000-shuffle permutation
-              tests, cross-site validation, and ComBat, which caught a spectral confound faking a depression
-              result.</p>
-            <div class="stats">
-              <div class="stat"><b>0.89</b><span>Alzheimer's AUC</span></div>
-              <div class="stat"><b>0.80</b><span>FTD AUC</span></div>
-              <div class="stat"><b>0.92</b><span>AD→FTD transfer</span></div>
-            </div>
-          </div>
-        </article>
-
-        <article class="row reveal">
-          <div class="row__meta">
-            <span class="row__time">Jun 2024 – Sep 2024</span>
-            <span class="row__place">Singapore</span>
-          </div>
-          <div class="row__body">
-            <h3>Research Intern <span class="row__org">A*STAR · Centre for Frontier AI Research</span></h3>
-            <p>Benchmarked a range of LLMs on multimodal sarcasm detection under Prof. Cheston Tan, then
-              fine-tuned a custom model on what the benchmarks showed to sharpen context and text-image
-              understanding.</p>
-          </div>
-        </article>
-
-      </div>
-    </section>
-
-    <!-- PROJECTS -->
-    <section class="section" id="projects">
-      <div class="section__label reveal"><span>04</span> Projects</div>
-      <div class="work">
-
-        <article class="work__item reveal">
-          <a class="work__shot" href="https://github.com/Savi-Swar/desk" target="_blank" rel="noopener">
-            <img src="assets/desk.png" alt="Desk dashboard: measurement-artifact ledger and a cross-venue spread benchmark against equity TAQ" />
-          </a>
-          <div class="work__body">
-            <div class="work__head">
-              <h3>Desk</h3>
-              <span class="work__tag">Prediction-Market Microstructure</span>
-            </div>
-            <p>A measurement-first research platform for prediction-market microstructure. Headline finding:
-              at scale the market is efficient &mdash; proving it took instruments that caught
-              <strong>nine measurement artifacts</strong> standard backtesting would ship as edges, each
-              documented with receipts across an <strong>880k-market</strong> dataset. A cross-venue benchmark
-              against equity TAQ shows wide prediction-market books booking a "realized spread" ~80&times; a
-              small-cap maker's take. Zero-server self-healing CI at $0 infra, tests green. Two working
-              papers.</p>
-            <div class="work__stack">
-              <span>Python</span><span>GitHub Actions</span><span>WebSocket capture</span>
-            </div>
-            <div class="work__links">
-              <a href="https://github.com/Savi-Swar/desk" target="_blank" rel="noopener">View source ↗</a>
-              <a href="/vig/desk.html" target="_blank" rel="noopener">Live dashboard ↗</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="work__item work__item--reverse reveal">
-          <a class="work__shot" href="https://github.com/Savi-Swar/nanoserve" target="_blank" rel="noopener">
-            <img src="assets/nanoserve.svg" alt="nanoserve throughput ladder: naive, static, continuous, and paged batching engines on a T4" />
-          </a>
-          <div class="work__body">
-            <div class="work__head">
-              <h3>nanoserve</h3>
-              <span class="work__tag">LLM Inference Server</span>
-            </div>
-            <p>A from-scratch LLM inference server, no custom CUDA, and the interesting part is the scheduler. I
-              built the batching ladder from a naive loop up through continuous batching and a paged KV cache,
-              for <strong>9.6× the throughput</strong> at a fraction of the latency, reaching 16% of vLLM on the
-              same GPU. Then I turned it on published optimizations as an audit: every engine is checked
-              token-for-token against a baseline and measured past a noise floor, which killed five of my own
-              first-pass results.</p>
-            <div class="work__stack">
-              <span>Python</span><span>PyTorch</span><span>Continuous batching</span>
-            </div>
-            <div class="work__links">
-              <a href="https://github.com/Savi-Swar/nanoserve" target="_blank" rel="noopener">View source ↗</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="work__item reveal">
-          <a class="work__shot" href="/vig/" target="_blank" rel="noopener">
-            <img src="assets/vig.png" alt="Vig quant research desk with model health, trailing IC, and decile spread" />
-          </a>
-          <div class="work__body">
-            <div class="work__head">
-              <h3>Vig</h3>
-              <span class="work__tag">Automated Data Platform &amp; Research Terminal</span>
-            </div>
-            <p>A quant research engine built to attack its own signal before trusting it. Vol-targeted
-              backtests, walk-forward validation, and <strong>70+ tests</strong> in CI. I rebuilt a
-              point-in-time S&amp;P universe to measure survivorship bias directly, found most of the edge was
-              a backtest artifact, then recovered a smaller real one at half the cost.</p>
-            <div class="work__stack">
-              <span>Python</span><span>pandas / NumPy</span><span>walk-forward CV</span>
-            </div>
-            <div class="work__links">
-              <a href="/vig/" target="_blank" rel="noopener">Open the desk ↗</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="work__item work__item--reverse reveal">
-          <a class="work__shot" href="https://github.com/savi-swar/eeg-microstate-pipeline" target="_blank" rel="noopener">
-            <img src="assets/eeg.png" alt="EEG microstate topographies for schizophrenia and healthy controls, classes A to D" />
-          </a>
-          <div class="work__body">
-            <div class="work__head">
-              <h3>EEG Microstate Pipeline</h3>
-              <span class="work__tag">Computational Neuroscience</span>
-            </div>
-            <p>One pipeline across <strong>8 public datasets and 504 people</strong>. It fits a single
-              microstate model, pulls 24 features per person, and classifies brain disorders from a few
-              minutes of resting-state EEG. Alzheimer's separates from controls at <strong>0.89 AUC</strong>,
-              and a model trained on it transfers to FTD it never saw.</p>
-            <div class="work__stack">
-              <span>Python</span><span>MNE</span><span>scikit-learn</span>
-            </div>
-            <div class="work__links">
-              <a href="https://github.com/savi-swar/eeg-microstate-pipeline" target="_blank" rel="noopener">View source ↗</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="work__item reveal">
-          <a class="work__shot" href="https://github.com/Savi-Swar/TimeBank" target="_blank" rel="noopener">
-            <img src="assets/timebank.png" alt="Time Bank kids app showing home, morning routine, and growth stats" />
-          </a>
-          <div class="work__body">
-            <div class="work__head">
-              <h3>Time Bank</h3>
-              <span class="work__tag">Kids' Productivity App</span>
-            </div>
-            <p>A kids' app with its own economy. Kids earn minutes for chores and routines, parents approve
-              requests and stock a reward store, and a dashboard tracks progress. Built in React Native with
-              Firebase, and <strong>live on the App Store and Google Play</strong>.</p>
-            <div class="work__stack">
-              <span>React Native</span><span>Firebase</span><span>Cross-platform</span>
-            </div>
-            <div class="work__links">
-              <a href="https://github.com/Savi-Swar/TimeBank" target="_blank" rel="noopener">View source ↗</a>
-            </div>
-          </div>
-        </article>
-
-      </div>
-    </section>
-
-    <!-- SKILLS -->
-    <section class="section" id="skills">
-      <div class="section__label reveal"><span>05</span> Toolkit</div>
-      <div class="skills">
-        <div class="skills__group reveal">
-          <h4>Languages</h4>
-          <p>Python · TypeScript · JavaScript · C/C++ · Java · SQL</p>
-        </div>
-        <div class="skills__group reveal">
-          <h4>ML / AI</h4>
-          <p>PyTorch · scikit-learn · pandas · NumPy · XGBoost · Hugging Face · MNE-Python · RAG (pgvector)</p>
-        </div>
-        <div class="skills__group reveal">
-          <h4>Web / Backend</h4>
-          <p>React · React Native · Node.js · Express · Next.js · Prisma · REST</p>
-        </div>
-        <div class="skills__group reveal">
-          <h4>Data / Infra</h4>
-          <p>PostgreSQL · Redis · BullMQ · pg-boss · Supabase · Firebase · Docker</p>
-        </div>
-        <div class="skills__group reveal">
-          <h4>Coursework</h4>
-          <p>Data Structures &amp; Algorithms · Computer Systems · Automata &amp; Computability · Probability · Linear Algebra · Discrete Math</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section class="section section--contact" id="contact">
-      <div class="section__label reveal"><span>06</span> Contact</div>
-      <div class="contact reveal">
-        <h2>Say hi.</h2>
-        <p>Always down to talk research, quant, or building things.</p>
-        <div class="contact__links">
-          <a href="mailto:saviswa@seas.upenn.edu">Email</a>
-          <a href="https://linkedin.com/in/savitur-swarup" target="_blank" rel="noopener">LinkedIn</a>
-          <a href="https://github.com/savi-swar" target="_blank" rel="noopener">GitHub</a>
-          <a href="assets/Savitur_Swarup_Resume.pdf" target="_blank" rel="noopener">Résumé</a>
-        </div>
-      </div>
-    </section>
-
-    <footer class="footer">
-      <span>© 2026 Savitur Swarup</span>
-      <span>Built from scratch · Philadelphia</span>
-    </footer>
-
-  </main>
-
-  <script src="main.js"></script>
+</main>
 </body>
 </html>
